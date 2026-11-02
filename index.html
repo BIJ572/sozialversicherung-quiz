@@ -58,6 +58,7 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
 .chip{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 12px;font-size:.88rem;line-height:1.2}
 .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip-all{font-weight:700;flex-basis:100%;text-align:center !important}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:6px}
 .stat b{display:block;font-size:1.35rem}
 .stat span{font-size:.8rem;color:var(--muted)}
@@ -135,7 +136,7 @@ footer{color:var(--muted);font-size:.8rem;text-align:center;margin-top:24px}
 
     <div class="card">
       <h2>2. Themen wählen</h2>
-      <p class="small muted">Ohne Auswahl kommen Fragen aus allen Themen.</p>
+      <p class="small muted">„Alle Themen“ ist voreingestellt. Tippe einzelne Themen an, um nur diese zu üben.</p>
       <div class="chips" id="chips"></div>
     </div>
 
@@ -222,6 +223,13 @@ var QUESTIONS = [{"id": 1, "thema": "Versicherungsprinzipien", "stamm": "Wonach 
   // ---------- Startseite ----------
   function renderChips(){
     var box = $("chips"); box.innerHTML = "";
+    if (selectedTopics.length === topics.length) selectedTopics = [];
+    var all = document.createElement("button");
+    all.type = "button"; all.className = "chip chip-all";
+    all.setAttribute("aria-pressed", selectedTopics.length ? "false" : "true");
+    all.textContent = "Alle Themen (" + QUESTIONS.length + ")";
+    all.addEventListener("click", function(){ selectedTopics = []; renderChips(); renderStats(); });
+    box.appendChild(all);
     topics.forEach(function(t){
       var n = QUESTIONS.filter(function(q){ return q.thema === t; }).length;
       var b = document.createElement("button");
