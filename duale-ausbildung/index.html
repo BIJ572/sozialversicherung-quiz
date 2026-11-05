@@ -1,0 +1,704 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Duale Ausbildung üben</title>
+<meta name="description" content="Klausurtraining Duale Ausbildung für WKE1-2 und WBM1-1: Single Choice und Kprim, Üben, Kurztraining und Probeklausur.">
+<meta name="theme-color" content="#1f5f8b">
+<style>
+:root{
+  --bg:#f4f6f8; --card:#ffffff; --text:#1c2329; --muted:#5b6670; --line:#d9dee3;
+  --accent:#1f5f8b; --accent-ink:#ffffff; --accent-soft:#e3eef6;
+  --ok:#1b7f3b; --ok-soft:#e5f4ea; --bad:#b3261e; --bad-soft:#fbe9e7;
+  --radius:14px; --shadow:0 1px 2px rgba(0,0,0,.06),0 4px 14px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161b; --card:#1a2128; --text:#e8edf1; --muted:#9aa6b1; --line:#2c3640;
+    --accent:#6fb3e3; --accent-ink:#0d1b26; --accent-soft:#1c3142;
+    --ok:#6fcf8f; --ok-soft:#173022; --bad:#f08a80; --bad-soft:#3a1d1b;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161b; --card:#1a2128; --text:#e8edf1; --muted:#9aa6b1; --line:#2c3640;
+  --accent:#6fb3e3; --accent-ink:#0d1b26; --accent-soft:#1c3142;
+  --ok:#6fcf8f; --ok-soft:#173022; --bad:#f08a80; --bad-soft:#3a1d1b;
+  --shadow:none;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px;line-height:1.5}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px calc(32px + env(safe-area-inset-bottom))}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 16px}
+header.top h1{font-size:1.15rem;margin:0;line-height:1.25}
+header.top .sub{color:var(--muted);font-size:.85rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:14px}
+h2{font-size:1.1rem;margin:0 0 10px}
+p{margin:0 0 10px}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:14px 16px;font-weight:600;
+  background:var(--accent);color:var(--accent-ink);min-height:50px;text-align:center}
+.btn.secondary{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);font-weight:500}
+.btn:disabled{opacity:.45;cursor:default}
+.btn + .btn{margin-top:10px}
+.iconbtn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 12px;font-size:.9rem;color:var(--muted);white-space:nowrap}
+.modes{display:grid;gap:12px}
+.mode{border:2px solid var(--line);background:var(--card);border-radius:var(--radius);padding:16px;text-align:left;width:100%}
+.mode[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.mode strong{display:block;font-size:1.02rem;margin-bottom:2px}
+.mode span{color:var(--muted);font-size:.9rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chip{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 12px;font-size:.88rem;line-height:1.2}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.chip-all{font-weight:700;flex-basis:100%;text-align:center !important}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;margin-bottom:6px}
+.stat b{display:block;font-size:1.35rem}
+.stat span{font-size:.8rem;color:var(--muted)}
+.bar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;margin:8px 0 2px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.qmeta{display:flex;justify-content:space-between;gap:10px;font-size:.85rem;color:var(--muted);margin-bottom:8px}
+.qtext{font-size:1.08rem;font-weight:600;margin:0 0 14px;white-space:pre-line}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;border:2px solid var(--line);
+  background:var(--card);border-radius:12px;padding:13px 14px;min-height:54px}
+.opt .key{flex:0 0 30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.95rem;background:var(--accent-soft);color:var(--text)}
+.opt .body{flex:1;min-width:0}
+.opt .why{display:none;font-size:.9rem;margin-top:8px;color:var(--text)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.answered .opt{cursor:default}
+.answered .opt .why{display:block}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .key{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .key{background:var(--bad);color:#fff}
+.answered .opt.neutral{opacity:.9}
+.verdict{border-radius:12px;padding:12px 14px;margin:14px 0 0;font-weight:600}
+.verdict.ok{background:var(--ok-soft);color:var(--ok)}
+.verdict.bad{background:var(--bad-soft);color:var(--bad)}
+.source{font-size:.82rem;color:var(--muted);margin-top:10px}
+.actions{margin-top:16px}
+.result-big{font-size:2.4rem;font-weight:800;text-align:center;margin:6px 0}
+.review{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.review h3{font-size:.98rem;margin:0 0 8px}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;border-radius:6px;padding:2px 7px;margin-right:6px}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.tag.bad{background:var(--bad-soft);color:var(--bad)}
+details summary{cursor:pointer;color:var(--accent);font-weight:600;padding:4px 0}
+footer{color:var(--muted);font-size:.8rem;text-align:center;margin-top:24px}
+.hidden{display:none !important}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media (min-width:600px){ .modes{grid-template-columns:1fr 1fr} }
+/* ---------- Ergänzungen Duale Ausbildung ---------- */
+@media (min-width:600px){ .modes{grid-template-columns:1fr 1fr 1fr} }
+.mode .meta{display:block;margin-top:6px;font-size:.8rem;font-weight:600;color:var(--accent)}
+.fmt{display:inline-block;font-size:.75rem;font-weight:700;border-radius:6px;padding:2px 7px;background:var(--accent-soft);color:var(--text)}
+.hint{font-size:.9rem;color:var(--muted);margin:-4px 0 12px}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;color:var(--text)}
+.timer.low{color:var(--bad)}
+.kp{display:grid;gap:10px}
+.kp-row{border:2px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--card)}
+.kp-row .t{display:block;margin-bottom:10px}
+.kp-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kp-btn{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:9px 10px;font-weight:600;min-height:44px}
+.kp-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--accent-ink)}
+.kp-row .why{display:none;font-size:.9rem;margin-top:10px}
+.kp.answered .kp-row .why{display:block}
+.kp.answered .kp-btn{cursor:default}
+.kp-row.right{border-color:var(--ok);background:var(--ok-soft)}
+.kp-row.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.kp-row .sol{display:block;font-size:.85rem;font-weight:700;margin-top:8px}
+.kp-row.right .sol{color:var(--ok)}
+.kp-row.wrong .sol{color:var(--bad)}
+.nav2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.nav2 .btn + .btn{margin-top:0}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.dot{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--card);font-size:.8rem;font-weight:600;color:var(--muted)}
+.dot.done{background:var(--accent-soft);color:var(--text);border-color:var(--accent)}
+.dot.cur{outline:2px solid var(--accent);outline-offset:1px}
+.grade{text-align:center;font-weight:700;margin:0 0 10px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center;margin:10px 0 14px}
+.split div{background:var(--bg);border-radius:10px;padding:8px}
+.split b{display:block;font-size:1.15rem}
+.split span{font-size:.8rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Duale Ausbildung üben</h1>
+      <div class="sub">WKE1-2 und WBM1-1 · Single Choice und Kprim</div>
+    </div>
+    <button class="iconbtn" id="homeBtn" type="button" aria-label="Zur Startseite">Start</button>
+  </header>
+
+  <!-- Startseite -->
+  <section id="viewStart">
+    <div class="card">
+      <h2>Dein Fortschritt</h2>
+      <div class="stats">
+        <div class="stat"><b id="stSeen">0</b><span>Aufgaben gesehen</span></div>
+        <div class="stat"><b id="stRight">0</b><span>zuletzt richtig</span></div>
+        <div class="stat"><b id="stWrong">0</b><span>zu wiederholen</span></div>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="stBar"></i></div>
+      <p class="small muted" id="stText"></p>
+    </div>
+
+    <div class="card">
+      <h2>1. Modus wählen</h2>
+      <div class="modes" role="group" aria-label="Modus">
+        <button class="mode" type="button" data-mode="practice" aria-pressed="true">
+          <strong>Üben</strong><span>Nach jeder Aufgabe siehst du sofort die Lösung und die Begründung.</span>
+          <span class="meta">ohne Zeitlimit</span>
+        </button>
+        <button class="mode" type="button" data-mode="short" aria-pressed="false">
+          <strong>Kurztraining</strong><span>10 Single Choice und 5 Kprim wie in der Klausur. Auswertung am Ende.</span>
+          <span class="meta">45 Minuten · 20 Punkte</span>
+        </button>
+        <button class="mode" type="button" data-mode="exam" aria-pressed="false">
+          <strong>Probeklausur</strong><span>20 Single Choice und 10 Kprim, genau wie die echte Klausur.</span>
+          <span class="meta">90 Minuten · 40 Punkte</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="card" id="topicCard">
+      <h2>2. Themen wählen</h2>
+      <p class="small muted">„Alle Themen“ ist voreingestellt. Tippe einzelne Themen an, um nur diese zu üben.</p>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="card hidden" id="ruleCard">
+      <h2>So wird bewertet</h2>
+      <p class="small"><b>Single Choice:</b> Genau eine Antwort ist richtig. Richtig = 1 Punkt.</p>
+      <p class="small"><b>Kprim:</b> Entscheide bei jeder der vier Aussagen, ob sie richtig oder falsch ist. Alle vier richtig = 2 Punkte, drei richtig = 1 Punkt, sonst 0 Punkte.</p>
+      <p class="small muted" style="margin:0">Du kannst vor- und zurückblättern und Antworten ändern. Wenn die Zeit abläuft, wird automatisch abgegeben.</p>
+    </div>
+
+    <button class="btn" id="startBtn" type="button">Los geht’s</button>
+    <button class="btn secondary" id="repeatBtn" type="button">Falsch beantwortete wiederholen</button>
+    <button class="btn ghost" id="resetBtn" type="button">Fortschritt zurücksetzen</button>
+  </section>
+
+  <!-- Aufgabe -->
+  <section id="viewQuiz" class="hidden">
+    <div class="card" id="qCard">
+      <div class="qmeta"><span id="qCount"></span><span id="qTimer" class="timer hidden"></span><span id="qTopic"></span></div>
+      <div class="bar" aria-hidden="true"><i id="qBar"></i></div>
+      <p style="margin:12px 0 6px"><span class="fmt" id="qFmt"></span></p>
+      <p class="qtext" id="qText"></p>
+      <p class="hint" id="qHint"></p>
+      <div id="qBody"></div>
+      <div id="qVerdict" aria-live="polite"></div>
+      <div class="source hidden" id="qSource"></div>
+      <div class="actions" id="practiceActions">
+        <button class="btn" id="checkBtn" type="button" disabled>Antwort prüfen</button>
+        <button class="btn" id="nextBtn" type="button" disabled>Nächste Aufgabe</button>
+        <button class="btn ghost" id="quitBtn" type="button">Beenden</button>
+      </div>
+      <div id="examActions" class="hidden">
+        <div class="nav2">
+          <button class="btn secondary" id="prevBtn" type="button">Zurück</button>
+          <button class="btn" id="fwdBtn" type="button">Weiter</button>
+        </div>
+        <div class="dots" id="dots" aria-label="Aufgabenübersicht"></div>
+        <button class="btn ghost" id="submitBtn" type="button" style="margin-top:14px">Abgeben</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ergebnis -->
+  <section id="viewResult" class="hidden">
+    <div class="card">
+      <h2 id="rTitle">Auswertung</h2>
+      <div class="result-big" id="rScore"></div>
+      <p class="grade" id="rGrade"></p>
+      <div class="split hidden" id="rSplit">
+        <div><b id="rSc"></b><span>Single Choice</span></div>
+        <div><b id="rKp"></b><span>Kprim</span></div>
+      </div>
+      <p class="muted" id="rText" style="text-align:center"></p>
+      <button class="btn" id="againBtn" type="button">Noch einmal</button>
+      <button class="btn secondary" id="backBtn" type="button">Zur Startseite</button>
+      <div id="rReview"></div>
+    </div>
+  </section>
+
+  <footer>Die Aufgaben beziehen sich auf das Skript „Berufsausbildung im dualen System“ (M1–M11) und die Zusatzmaterialien zu BBiG, Arbeitszeit, Urlaub, Abmahnung und Kündigung.<br>Dein Fortschritt wird nur auf diesem Gerät gespeichert.</footer>
+</div>
+
+<script>
+var QUESTIONS = [{"id": 1, "format": "sc", "thema": "Duales System und Lernorte", "afb": "I", "stamm": "Wofür steht das Wort „dual“ in der Bezeichnung „duale Berufsausbildung“?", "fundstelle": "Skript M1 (Einleitungstext) und M2, Z. 1–3", "optionen": [{"text": "für die zwei Kammern IHK und Handwerkskammer", "richtig": false, "begruendung": "IHK und HWK sind zuständige Stellen (M2), mit „dual“ sind die Lernorte gemeint."}, {"text": "für die zwei Vertragspartner Azubi und Betrieb", "richtig": false, "begruendung": "Es gibt zwei Vertragspartner, aber „dual“ bezeichnet laut M1 die beiden Lernorte."}, {"text": "für die zwei Gesetze BBiG und JArbSchG", "richtig": false, "begruendung": "Beide Gesetze gelten, „dual“ meint aber die Lernorte Betrieb und Berufsschule (M1)."}, {"text": "für die zwei Prüfungen in der Ausbildungszeit", "richtig": false, "begruendung": "Zwischen- und Abschlussprüfung gibt es, sie sind aber nicht mit „dual“ gemeint (M1)."}, {"text": "für die Lernorte Betrieb und Berufsschule", "richtig": true, "begruendung": "M1/M2: „Dual“ steht für die beiden Ausbildungsorte Betrieb und Berufsschule."}]}, {"id": 2, "format": "sc", "thema": "Duales System und Lernorte", "afb": "I", "stamm": "Welche Rechtsstellung hat eine Auszubildende, während sie in der Berufsschule ist?", "fundstelle": "Skript M2, Z. 11–15 und Tabelle (Rechtsstellung)", "optionen": [{"text": "Sie hat dort die Stellung einer Schülerin.", "richtig": true, "begruendung": "M2: In der Berufsschule haben Azubis den Status Schüler/in."}, {"text": "Sie ist dort Praktikantin des Schulträgers.", "richtig": false, "begruendung": "Laut M2 sind Azubis in der Berufsschule Schülerinnen und Schüler, keine Praktikanten."}, {"text": "Sie ist dort Arbeitnehmerin besonderer Art.", "richtig": false, "begruendung": "Arbeitnehmer der besonderen Art sind Azubis im Betrieb, nicht in der Schule (M2, Z. 13–14)."}, {"text": "Sie ist dort Beschäftigte der IHK.", "richtig": false, "begruendung": "Die IHK überwacht die betriebliche Ausbildung (M2), Azubis sind dort nicht beschäftigt."}, {"text": "Sie ist dort Vertragspartnerin des Landes.", "richtig": false, "begruendung": "Vertragspartner des Ausbildungsvertrags ist der Betrieb (M8); in der Schule ist sie Schülerin (M2)."}]}, {"id": 3, "format": "sc", "thema": "Duales System und Lernorte", "afb": "I", "stamm": "Welche Vorschrift legt bundeseinheitlich fest, welche Kompetenzen im Betrieb für einen Ausbildungsberuf vermittelt werden müssen?", "fundstelle": "Skript M2, Z. 15–20; AB BBiG, Nr. 4", "optionen": [{"text": "die Ausbildungsordnung", "richtig": true, "begruendung": "M2: Für die betriebliche Ausbildung sind die Kompetenzen in einer bundeseinheitlichen Ausbildungsordnung vorgegeben."}, {"text": "der Ausbildungsvertrag", "richtig": false, "begruendung": "Der Vertrag regelt das einzelne Ausbildungsverhältnis, die Inhalte des Berufs stehen in der Ausbildungsordnung (M2, M8)."}, {"text": "der Rahmenlehrplan", "richtig": false, "begruendung": "Der Rahmenlehrplan gilt für den Unterricht in der Berufsschule und ist landeseinheitlich (M2)."}, {"text": "das Schulgesetz des Landes", "richtig": false, "begruendung": "Schulgesetze der Länder regeln die Berufsschule, nicht die betrieblichen Inhalte (M2, Lösungstabelle)."}, {"text": "die Betriebsordnung", "richtig": false, "begruendung": "Die Betriebsordnung regelt das Verhalten im Betrieb (§ 13 BBiG), nicht die Ausbildungsinhalte."}]}, {"id": 4, "format": "sc", "thema": "Duales System und Lernorte", "afb": "I", "stamm": "Was wird im Rahmenlehrplan geregelt?", "fundstelle": "Skript M2, Z. 18–20; AB BBiG, Nr. 4 und 6", "optionen": [{"text": "die sachliche und zeitliche Gliederung im Betrieb", "richtig": false, "begruendung": "Das ist der Ausbildungsrahmenplan als Teil der Ausbildungsordnung (AB BBiG Nr. 6)."}, {"text": "die Prüfungsanforderungen der Abschlussprüfung", "richtig": false, "begruendung": "Die Prüfungsanforderungen stehen in der Ausbildungsordnung (AB BBiG Nr. 4)."}, {"text": "die Rechte und Pflichten von Azubi und Betrieb", "richtig": false, "begruendung": "Rechte und Pflichten regeln BBiG und Ausbildungsvertrag (M4, M6)."}, {"text": "die Überwachung der Ausbildung durch die Kammer", "richtig": false, "begruendung": "Die Überwachung ist Aufgabe der zuständigen Stelle, z. B. IHK (M2, Z. 20–23)."}, {"text": "der berufsbezogene Unterricht der Berufsschule", "richtig": true, "begruendung": "M2: Für den berufsbezogenen Unterricht werden landeseinheitliche Rahmenlehrpläne erstellt."}]}, {"id": 5, "format": "kprim", "thema": "Duales System und Lernorte", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zum dualen System zutreffen.", "fundstelle": "Skript M2, Z. 1–23 und Lösungstabelle", "optionen": [{"text": "Im Betrieb sind Azubis rechtlich Arbeitnehmer der besonderen Art.", "richtig": true, "begruendung": "M2, Z. 13–14: Im Betrieb sind Azubis Arbeitnehmer der besonderen Art."}, {"text": "Der Rahmenlehrplan ist bundeseinheitlich, die Ausbildungsordnung landeseinheitlich.", "richtig": false, "begruendung": "Umgekehrt: Ausbildungsordnung bundeseinheitlich, Rahmenlehrpläne landeseinheitlich (M2, Z. 16–20)."}, {"text": "Für eine duale Ausbildung schreibt das Gesetz einen bestimmten Schulabschluss vor.", "richtig": false, "begruendung": "M2, Z. 8–10: Gesetzlich ist kein Schulabschluss vorgeschrieben, nur Betriebe setzen eigene Anforderungen."}, {"text": "Die Berufsschule vermittelt allgemeinbildende und fachspezifische Kenntnisse.", "richtig": true, "begruendung": "M2, Z. 6–7: In der Berufsschule werden allgemeinbildende und fachspezifische Kenntnisse erworben."}]}, {"id": 6, "format": "sc", "thema": "Ausbildungsordnung, Dauer und zuständige Stelle", "afb": "I", "stamm": "Welche Aufgabe hat die Industrie- und Handelskammer als zuständige Stelle in der dualen Ausbildung?", "fundstelle": "Skript M2, Z. 20–23; AB BBiG, Nr. 4", "optionen": [{"text": "Sie unterrichtet die Azubis an den Berufsschultagen.", "richtig": false, "begruendung": "Den Unterricht übernimmt die Berufsschule, die IHK überwacht und prüft (M2)."}, {"text": "Sie überwacht die Ausbildung und nimmt Prüfungen ab.", "richtig": true, "begruendung": "M2: Die zuständige Stelle überwacht die Ausbildung, erfasst die Verträge und nimmt die Prüfungen ab."}, {"text": "Sie zahlt die Ausbildungsvergütung an die Azubis.", "richtig": false, "begruendung": "Die Vergütung zahlt der Ausbildende, also der Betrieb (§§ 17, 18 BBiG, Zusammenfassung BBiG)."}, {"text": "Sie erlässt die Ausbildungsordnung für ihre Region.", "richtig": false, "begruendung": "AB BBiG Nr. 4: Die Ausbildungsordnung erlässt das Bundesministerium, nicht die Kammer."}, {"text": "Sie erstellt den Rahmenlehrplan für die Berufsschule.", "richtig": false, "begruendung": "Rahmenlehrpläne sind landeseinheitlich und gehören zur Berufsschule (M2)."}]}, {"id": 7, "format": "sc", "thema": "Ausbildungsordnung, Dauer und zuständige Stelle", "afb": "I", "stamm": "Wie lange soll eine Berufsausbildung nach dem Berufsbildungsgesetz in der Regel dauern?", "fundstelle": "AB BBiG, Nr. 5; Aktualisierung 2026 (M8, § 5)", "optionen": [{"text": "ein bis vier Monate", "richtig": false, "begruendung": "Ein bis vier Monate ist die Dauer der Probezeit (§ 20 BBiG), nicht der Ausbildung."}, {"text": "ein bis zwei Jahre", "richtig": false, "begruendung": "Laut § 5 BBiG soll die Ausbildung nicht weniger als zwei Jahre dauern (AB BBiG Nr. 5)."}, {"text": "zwei bis drei Jahre", "richtig": true, "begruendung": "§ 5 Abs. 1 BBiG: nicht mehr als drei und nicht weniger als zwei Jahre (AB BBiG Nr. 5)."}, {"text": "drei bis vier Jahre", "richtig": false, "begruendung": "Drei Jahre sind die Obergrenze der Regel; nur einzelne Berufe dauern 3,5 Jahre (Aktualisierung 2026)."}, {"text": "vier bis fünf Jahre", "richtig": false, "begruendung": "So lange dauert keine Regelausbildung; die Soll-Dauer liegt bei zwei bis drei Jahren (AB BBiG Nr. 5)."}]}, {"id": 8, "format": "sc", "thema": "Ausbildungsordnung, Dauer und zuständige Stelle", "afb": "II", "stamm": "Mia hat das Abitur und beginnt eine dreijährige Ausbildung zur Kauffrau im Einzelhandel. Sie möchte die Ausbildung verkürzen. Wie muss sie vorgehen?", "fundstelle": "AB BBiG, Nr. 7; Zusammenfassung BBiG, § 8", "optionen": [{"text": "Mia und ihr Betrieb beantragen es gemeinsam bei der IHK.", "richtig": true, "begruendung": "§ 8 Abs. 1 BBiG: gemeinsamer Antrag von Azubi und Ausbildendem bei der zuständigen Stelle (AB BBiG Nr. 7)."}, {"text": "Der Betrieb verkürzt die Dauer allein durch eine Notiz.", "richtig": false, "begruendung": "Über die Verkürzung entscheidet die zuständige Stelle auf gemeinsamen Antrag (AB BBiG Nr. 7)."}, {"text": "Mia meldet die Verkürzung bei der Arbeitsagentur an.", "richtig": false, "begruendung": "Die Arbeitsagentur kommt im Material nicht vor; zuständig ist die IHK (AB BBiG Nr. 7)."}, {"text": "Die Berufsschule entscheidet nach Mias Zeugnisnoten.", "richtig": false, "begruendung": "Zuständig ist die IHK als zuständige Stelle, nicht die Berufsschule (AB BBiG Nr. 7)."}, {"text": "Mia stellt allein einen Antrag bei ihrer Berufsschule.", "richtig": false, "begruendung": "Der Antrag geht nicht an die Schule und wird gemeinsam gestellt (AB BBiG Nr. 7)."}]}, {"id": 9, "format": "sc", "thema": "Ausbildungsordnung, Dauer und zuständige Stelle", "afb": "II", "stamm": "Ben betreut sein Kind und vereinbart mit seinem Betrieb eine Teilzeitausbildung. Seine tägliche Ausbildungszeit sinkt um ein Viertel. Welche Folge hat das für die Ausbildungsdauer?", "fundstelle": "Zusammenfassung BBiG, § 7a", "optionen": [{"text": "Sie verlängert sich, höchstens auf das Doppelte der Zeit.", "richtig": false, "begruendung": "Die Obergrenze ist das Eineinhalbfache, nicht das Doppelte (Zusammenfassung BBiG, § 7a)."}, {"text": "Sie verlängert sich in jedem Fall um ein ganzes Jahr.", "richtig": false, "begruendung": "Die Verlängerung richtet sich nach der Kürzung, eine feste Verlängerung gibt es nicht (§ 7a)."}, {"text": "Sie bleibt gleich, weil der Beruf derselbe bleibt.", "richtig": false, "begruendung": "Weil Ben weniger Zeit hat, verlängert sich die Dauer entsprechend (Zusammenfassung BBiG, § 7a)."}, {"text": "Sie verkürzt sich, weil Ben weniger Stunden lernt.", "richtig": false, "begruendung": "Teilzeit verlängert die Ausbildung, sie verkürzt sie nicht (Zusammenfassung BBiG, § 7a)."}, {"text": "Sie verlängert sich, höchstens auf das Eineinhalbfache.", "richtig": true, "begruendung": "§ 7a BBiG: Die Dauer verlängert sich entsprechend, höchstens auf das Eineinhalbfache (Zusammenfassung BBiG)."}]}, {"id": 10, "format": "kprim", "thema": "Ausbildungsordnung, Dauer und zuständige Stelle", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zur Ausbildungsordnung zutreffen.", "fundstelle": "AB BBiG, Nr. 4 und 6", "optionen": [{"text": "Die Ausbildungsordnung legt unter anderem die Prüfungsanforderungen fest.", "richtig": true, "begruendung": "AB BBiG Nr. 4: Sie legt u. a. Berufsbezeichnung, Dauer, Berufsbild, Rahmenplan und Prüfungsanforderungen fest."}, {"text": "Die IHK erlässt die Ausbildungsordnung für ihre Region.", "richtig": false, "begruendung": "AB BBiG Nr. 4: Das Bundesministerium erlässt sie bundesweit; die Kammern erlassen sie nicht."}, {"text": "Der Ausbildungsrahmenplan gliedert die Inhalte sachlich und zeitlich.", "richtig": true, "begruendung": "AB BBiG Nr. 6: Der Rahmenplan gliedert die Inhalte sachlich und zeitlich („was wann“)."}, {"text": "Das Ausbildungsberufsbild nennt die Mindestinhalte der Ausbildung.", "richtig": true, "begruendung": "AB BBiG Nr. 6: Das Berufsbild nennt, was mindestens Gegenstand der Ausbildung ist („was“)."}]}, {"id": 11, "format": "kprim", "thema": "Ausbildungsordnung, Dauer und zuständige Stelle", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zur Dauer der Ausbildung zutreffen.", "fundstelle": "Zusammenfassung BBiG, §§ 7a und 8; AB BBiG, Nr. 7", "optionen": [{"text": "Für eine Teilzeitausbildung muss ein besonderer Grund wie Kinderbetreuung vorliegen.", "richtig": false, "begruendung": "Seit 2020 ist für Teilzeit kein besonderer Grund mehr nötig (Zusammenfassung BBiG, § 7a)."}, {"text": "Bei Teilzeit darf die tägliche Ausbildungszeit um höchstens 25 % gekürzt werden.", "richtig": false, "begruendung": "Die Kürzung ist um bis zu 50 % möglich (Zusammenfassung BBiG, § 7a)."}, {"text": "Eine Verlängerung der Ausbildung beantragt der Betrieb allein bei der IHK.", "richtig": false, "begruendung": "Die Verlängerung kann nur der oder die Auszubildende beantragen (Zusammenfassung BBiG, § 8 Abs. 2)."}, {"text": "Eine Verkürzung beantragt die Berufsschule bei der IHK.", "richtig": false, "begruendung": "Den Antrag stellen Azubi und Betrieb gemeinsam (AB BBiG Nr. 7)."}]}, {"id": 12, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "I", "stamm": "Wer sind die Vertragspartner eines Ausbildungsvertrags, wenn die Auszubildende 16 Jahre alt ist?", "fundstelle": "Skript M8 (§ 11); M11, Frage 1 mit Lösung", "optionen": [{"text": "Ausbilder, Auszubildende und ihre Eltern", "richtig": false, "begruendung": "Der Ausbilder ist die anleitende Person; Vertragspartner ist der Ausbildende (Betrieb), M11 Frage 1."}, {"text": "Ausbildender, Auszubildende und ihre Eltern", "richtig": true, "begruendung": "M8: Vertragspartner sind Ausbildende und Auszubildende sowie bei Minderjährigen die gesetzliche Vertretung."}, {"text": "Ausbildender, Auszubildende und zuständige Kammer", "richtig": false, "begruendung": "Die Kammer trägt den Vertrag ein, ist aber nicht Vertragspartner (M2, M8)."}, {"text": "Ausbildender, Auszubildende und die Berufsschule", "richtig": false, "begruendung": "Die Berufsschule ist Lernort, aber nicht Vertragspartner (M8)."}, {"text": "Ausbilder, Ausbildender und die Auszubildende", "richtig": false, "begruendung": "Der Ausbilder ist kein Vertragspartner, und die Eltern fehlen bei einer Minderjährigen (M8)."}]}, {"id": 13, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "I", "stamm": "Wer ist im Sinne des Berufsbildungsgesetzes der „Ausbildende“?", "fundstelle": "Zusammenfassung BBiG, § 14; Skript M11, Frage 1", "optionen": [{"text": "der Betrieb, mit dem der Azubi den Vertrag schließt", "richtig": true, "begruendung": "Ausbildende sind der Betrieb bzw. die Inhaberin oder der Inhaber (Zusammenfassung BBiG, § 14)."}, {"text": "die Person, die den Azubi im Alltag fachlich anleitet", "richtig": false, "begruendung": "Das ist der Ausbilder bzw. die Ausbilderin, die der Ausbildende beauftragt (Zusammenfassung BBiG, § 14)."}, {"text": "die Lehrkraft, die den Azubi in der Schule unterrichtet", "richtig": false, "begruendung": "Lehrkräfte gehören zum Lernort Berufsschule, nicht zum Vertrag (M2, M8)."}, {"text": "die Person bei der IHK, die die Ausbildung überwacht", "richtig": false, "begruendung": "Die IHK ist zuständige Stelle und überwacht, sie bildet nicht aus (M2)."}, {"text": "die Prüferin, die später die Abschlussprüfung abnimmt", "richtig": false, "begruendung": "Prüfungen nimmt die zuständige Stelle ab, nicht der Ausbildende (M2)."}]}, {"id": 14, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "I", "stamm": "Welche Form braucht ein Ausbildungsvertrag, damit er wirksam zustande kommt?", "fundstelle": "Aktualisierung 2026 (M8, § 11); Zusammenfassung BBiG, §§ 10–12", "optionen": [{"text": "die Eintragung in das Verzeichnis der IHK", "richtig": false, "begruendung": "Die Eintragung folgt nach der Anmeldung durch den Betrieb; sie ist keine Wirksamkeitsform (Zusammenfassung BBiG)."}, {"text": "keine bestimmte Form, er gilt auch mündlich", "richtig": true, "begruendung": "Aktualisierung 2026: Der Ausbildungsvertrag ist auch mündlich wirksam."}, {"text": "die Zustimmung der Berufsschule", "richtig": false, "begruendung": "Die Berufsschule ist am Vertrag nicht beteiligt (M8)."}, {"text": "die Schriftform mit Unterschrift beider Seiten", "richtig": false, "begruendung": "So stand es im alten Skript (M8); laut Aktualisierung 2026 ist der Vertrag auch mündlich wirksam."}, {"text": "die Beglaubigung durch eine Notarin", "richtig": false, "begruendung": "Eine Beglaubigung verlangt das BBiG nicht (Aktualisierung 2026)."}]}, {"id": 15, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Jana und ein Modegeschäft einigen sich am Telefon auf einen Ausbildungsvertrag. Was muss der Betrieb danach tun?", "fundstelle": "Aktualisierung 2026 (M8, § 11); Zusammenfassung BBiG, §§ 10–12", "optionen": [{"text": "den Vertrag vor Beginn von einem Notar beglaubigen lassen", "richtig": false, "begruendung": "Eine Beglaubigung ist nicht vorgesehen; es reicht eine Niederschrift in Textform (Aktualisierung 2026)."}, {"text": "den Vertrag erst nach der Probezeit schriftlich bestätigen", "richtig": false, "begruendung": "Nach der Probezeit ist zu spät; spätestens vor Beginn (Aktualisierung 2026)."}, {"text": "den Vertrag im ersten Ausbildungsjahr niederschreiben", "richtig": false, "begruendung": "Die Niederschrift muss spätestens vor Beginn der Ausbildung vorliegen (Aktualisierung 2026)."}, {"text": "den Vertrag mündlich bei der Berufsschule anmelden", "richtig": false, "begruendung": "Der Betrieb meldet den Vertrag bei der zuständigen Stelle (IHK), nicht bei der Schule (Zusammenfassung BBiG)."}, {"text": "den Inhalt bis spätestens Ausbildungsbeginn aufschreiben", "richtig": true, "begruendung": "§ 11 BBiG: Niederschrift unverzüglich, spätestens vor Beginn der Ausbildung (Aktualisierung 2026)."}]}, {"id": 16, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Der Betrieb schickt Jana die Niederschrift ihres Ausbildungsvertrags als PDF per E-Mail. Wie ist das zu beurteilen?", "fundstelle": "Aktualisierung 2026 (M8, § 11); AB BBiG, Nr. 8", "optionen": [{"text": "unzulässig, sie muss auf Papier unterschrieben sein", "richtig": false, "begruendung": "Das galt vor dem 1.8.2024; seitdem genügt die Textform (AB BBiG Nr. 8)."}, {"text": "zulässig, eine Bestätigung ist dabei nicht vorgesehen", "richtig": false, "begruendung": "Bei der Textform bestätigt der Azubi den Empfang (Aktualisierung 2026)."}, {"text": "zulässig, sofern Jana schon volljährig ist", "richtig": false, "begruendung": "Eine Altersgrenze für die Textform nennt das Material nicht (Aktualisierung 2026)."}, {"text": "unzulässig, die IHK muss sie elektronisch versenden", "richtig": false, "begruendung": "Die Niederschrift erstellt der Betrieb, nicht die IHK (Aktualisierung 2026)."}, {"text": "zulässig, Jana bestätigt dann den Empfang", "richtig": true, "begruendung": "Seit 1.8.2024 reicht die Textform, z. B. PDF per E-Mail; der Azubi bestätigt den Empfang (Aktualisierung 2026)."}]}, {"id": 17, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "I", "stamm": "Welche Angabe gehört zu den Pflichtangaben in einem Ausbildungsvertrag?", "fundstelle": "Aktualisierung 2026, Kasten „Pflichtangaben“; Skript M8", "optionen": [{"text": "die Durchschnittsnote im Schulzeugnis", "richtig": false, "begruendung": "Schulnoten gehören nicht zu den Pflichtangaben (Aktualisierung 2026, Kasten)."}, {"text": "die vereinbarte Dauer der Probezeit", "richtig": true, "begruendung": "Die Dauer der Probezeit ist Pflichtangabe nach § 11 Abs. 1 BBiG (Aktualisierung 2026, Kasten)."}, {"text": "eine Pflicht zur Übernahme danach", "richtig": false, "begruendung": "Eine Bindung nach der Ausbildung ist sogar nichtig (§ 12 BBiG, Zusammenfassung BBiG)."}, {"text": "der Name der Lehrkraft der Berufsschule", "richtig": false, "begruendung": "Lehrkräfte sind keine Vertragspartner und keine Pflichtangabe (Aktualisierung 2026, Kasten)."}, {"text": "die Höhe einer möglichen Vertragsstrafe", "richtig": false, "begruendung": "Vertragsstrafen sind im Ausbildungsvertrag verboten (M8; § 12 BBiG)."}]}, {"id": 18, "format": "kprim", "thema": "Ausbildungsvertrag", "afb": "I", "stamm": "Beurteilen Sie, ob die folgenden Angaben laut BBiG im Ausbildungsvertrag stehen müssen.", "fundstelle": "Aktualisierung 2026, Kasten „Pflichtangaben im Ausbildungsvertrag“", "optionen": [{"text": "die Form des Ausbildungsnachweises (schriftlich oder elektronisch)", "richtig": true, "begruendung": "Pflichtangabe nach § 11 Abs. 1 BBiG (Aktualisierung 2026, Kasten)."}, {"text": "ein Hinweis auf geltende Tarifverträge oder Betriebsvereinbarungen", "richtig": true, "begruendung": "Pflichtangabe nach § 11 Abs. 1 BBiG (Aktualisierung 2026, Kasten)."}, {"text": "die Vergütung oder der Freizeitausgleich für Überstunden", "richtig": true, "begruendung": "Pflichtangabe nach § 11 Abs. 1 BBiG (Aktualisierung 2026, Kasten)."}, {"text": "die Dauer der regelmäßigen täglichen Ausbildungszeit", "richtig": true, "begruendung": "Pflichtangabe nach § 11 Abs. 1 BBiG (Aktualisierung 2026, Kasten)."}]}, {"id": 19, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Im Ausbildungsvertrag steht: „Nach der Ausbildung darf die Auszubildende ein Jahr lang nicht bei einem Konkurrenten arbeiten.“ Wie ist die Klausel zu beurteilen?", "fundstelle": "Skript M8, Aufg. 3 und Text; Zusammenfassung BBiG, § 12", "optionen": [{"text": "wirksam, wenn die Auszubildende bereits volljährig ist", "richtig": false, "begruendung": "Das Verbot in § 12 BBiG gilt unabhängig vom Alter (Zusammenfassung BBiG)."}, {"text": "wirksam, weil beide Seiten den Vertrag unterschrieben haben", "richtig": false, "begruendung": "Eine Unterschrift macht eine nichtige Klausel nicht wirksam (§ 25 BBiG, AB Vertrag Lösung)."}, {"text": "nichtig, weil sie die spätere Berufsausübung einschränkt", "richtig": true, "begruendung": "M8/§ 12 BBiG: Vereinbarungen, die die spätere Berufsausübung einschränken, sind nichtig."}, {"text": "wirksam, wenn die IHK den Vertrag eingetragen hat", "richtig": false, "begruendung": "Die Eintragung heilt keine nichtige Vereinbarung (§ 12 BBiG, Zusammenfassung BBiG)."}, {"text": "nichtig, weil sie nicht im Rahmenlehrplan vorgesehen ist", "richtig": false, "begruendung": "Der Rahmenlehrplan regelt den Unterricht; nichtig ist die Klausel wegen § 12 BBiG."}]}, {"id": 20, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Fünf Monate vor dem Ende ihrer Ausbildung vereinbart Selin schriftlich mit ihrem Betrieb, dass sie danach als Kauffrau für Büromanagement übernommen wird. Wie ist die Vereinbarung zu beurteilen?", "fundstelle": "Zusammenfassung BBiG, §§ 12 und 24", "optionen": [{"text": "zulässig, weil sie in den letzten 6 Monaten erfolgt", "richtig": true, "begruendung": "Eine Weiterbeschäftigung darf in den letzten sechs Monaten vereinbart werden (§ 12 Abs. 1, Zusammenfassung BBiG)."}, {"text": "nichtig, weil eine Bindung an den Betrieb verboten ist", "richtig": false, "begruendung": "Verboten ist die Bindung außerhalb der letzten sechs Monate; hier greift die Ausnahme (§ 12 Abs. 1)."}, {"text": "zulässig, weil eine Übernahme jederzeit vereinbart werden darf", "richtig": false, "begruendung": "Nicht jederzeit, sondern nur in den letzten sechs Monaten der Ausbildung (§ 12 Abs. 1)."}, {"text": "zulässig, sofern auch die Berufsschule zustimmt", "richtig": false, "begruendung": "Die Berufsschule muss nicht zustimmen; maßgeblich ist der Zeitpunkt (§ 12 Abs. 1)."}, {"text": "nichtig, weil sie schon im Ausbildungsvertrag stehen müsste", "richtig": false, "begruendung": "Im ursprünglichen Vertrag wäre sie gerade nichtig; zulässig ist sie erst in den letzten sechs Monaten (§ 12)."}]}, {"id": 21, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Ein Betrieb möchte in den Ausbildungsvertrag schreiben: „Wer die Ausbildung abbricht, zahlt dem Betrieb 2.000 €.“ Wie ist die Klausel zu beurteilen?", "fundstelle": "Skript M8 (Text unter Pflichtangaben); Zusammenfassung BBiG, § 12; AB Vertrag Lösung, Fall 1 Nr. 6", "optionen": [{"text": "wirksam, wenn der Azubi die Klausel vorher gelesen hat", "richtig": false, "begruendung": "Auch eine gelesene und unterschriebene Klausel bleibt nichtig (§§ 12, 25 BBiG)."}, {"text": "wirksam, solange der Abbruch nach der Probezeit erfolgt", "richtig": false, "begruendung": "Die Klausel ist unabhängig vom Zeitpunkt nichtig (§ 12 BBiG)."}, {"text": "nichtig, weil der Betrag über der Vergütung liegt", "richtig": false, "begruendung": "Nichtig ist jede Vertragsstrafe, nicht nur eine hohe (§ 12 BBiG)."}, {"text": "nichtig, weil Vertragsstrafen im Vertrag verboten sind", "richtig": true, "begruendung": "Vertragsstrafen und pauschale Schadensersatzbeträge sind nichtig (§ 12 BBiG, M8)."}, {"text": "wirksam, weil der Betrieb Kosten für die Ausbildung hatte", "richtig": false, "begruendung": "Eine Entschädigung für die Ausbildung darf gerade nicht verlangt werden (M8; § 12 BBiG)."}]}, {"id": 22, "format": "sc", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Emil war am 1. Januar 16 Jahre alt. In seinem unterschriebenen Ausbildungsvertrag stehen 24 Werktage Urlaub. Was gilt für dieses Jahr?", "fundstelle": "AB Vertrag (Einstieg Linus) und Lösung 2026; Tabelle Urlaub nach Alter", "optionen": [{"text": "Er hat 30 Werktage, weil er noch nicht 18 ist.", "richtig": false, "begruendung": "30 Werktage gelten nur, wenn man zu Jahresbeginn noch nicht 16 ist (AB Vertrag, Tabelle)."}, {"text": "Er hat 24 Werktage nach dem Bundesurlaubsgesetz.", "richtig": false, "begruendung": "24 Werktage gelten erst ab 18 Jahren (AB Vertrag, Tabelle)."}, {"text": "Er muss kündigen, um den gesetzlichen Urlaub zu bekommen.", "richtig": false, "begruendung": "Der gesetzliche Mindesturlaub gilt automatisch (§ 25 BBiG, AB Vertrag Lösung)."}, {"text": "Er hat trotzdem Anspruch auf mindestens 27 Werktage.", "richtig": true, "begruendung": "Noch nicht 17 zu Jahresbeginn: mind. 27 Werktage; schlechtere Klauseln sind nichtig (§ 25 BBiG, AB Vertrag)."}, {"text": "Es bleibt bei 24 Werktagen, weil er unterschrieben hat.", "richtig": false, "begruendung": "Die Unterschrift ändert nichts: Abweichungen zuungunsten des Azubis sind nichtig (AB Vertrag, Linus)."}]}, {"id": 23, "format": "kprim", "thema": "Ausbildungsvertrag", "afb": "II", "stamm": "Ein Betrieb legt einem Bewerber einen Ausbildungsvertrag vor. Beurteilen Sie, ob die Klauseln zulässig sind.", "fundstelle": "Zusammenfassung BBiG, § 12; AB Vertrag Lösung, Fall 1 Nr. 6, Fall 2 Nr. 7, Fall 1 Nr. 9", "optionen": [{"text": "Für die Ausbildung zahlt der Azubi eine monatliche Gebühr von 50 €.", "richtig": false, "begruendung": "Ausbildungsgebühren sind nichtig (§ 12 BBiG, Zusammenfassung BBiG)."}, {"text": "Die Probezeit beträgt drei Monate.", "richtig": true, "begruendung": "Zulässig, die Probezeit darf ein bis vier Monate dauern (§ 20 BBiG, AB Vertrag Fall 1 Nr. 9)."}, {"text": "Bei Vorsatz oder grober Fahrlässigkeit haftet der Azubi nach den gesetzlichen Regeln.", "richtig": true, "begruendung": "Grundsätzlich zulässig, weil nur die gesetzliche Haftung beschrieben wird (AB Vertrag Lösung, Fall 2 Nr. 7)."}, {"text": "Bei Abbruch zahlt der Azubi pauschal 1.500 € Schadensersatz.", "richtig": false, "begruendung": "Pauschale Schadensersatzbeträge sind nichtig (§ 12 BBiG, AB Vertrag Fall 1 Nr. 6)."}]}, {"id": 24, "format": "kprim", "thema": "Ausbildungsvertrag", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zum Abschluss eines Ausbildungsvertrags zutreffen.", "fundstelle": "Zusammenfassung BBiG, §§ 10–12; AB Vertrag Lösung (Linus, Schlusssatz); Aktualisierung 2026", "optionen": [{"text": "Der Betrieb meldet den Vertrag zur Eintragung bei der zuständigen Stelle an.", "richtig": true, "begruendung": "Zusammenfassung BBiG: Der Betrieb meldet den Vertrag zur Eintragung bei der zuständigen Stelle (z. B. IHK)."}, {"text": "Vereinbarungen zuungunsten des Azubis werden durch die Unterschrift wirksam.", "richtig": false, "begruendung": "Abweichungen zuungunsten des Azubis sind nichtig, auch mit Unterschrift (§ 25 BBiG, AB Vertrag Linus)."}, {"text": "Bei Minderjährigen genügt die Unterschrift des Azubis allein.", "richtig": false, "begruendung": "Bei Minderjährigen müssen die gesetzlichen Vertreter zustimmen (AB Vertrag Lösung; M8)."}, {"text": "Ein mündlich geschlossener Ausbildungsvertrag ist nichtig.", "richtig": false, "begruendung": "Der Vertrag ist auch mündlich wirksam; nur die Niederschrift ist Pflicht (Aktualisierung 2026)."}]}, {"id": 25, "format": "sc", "thema": "Rechte und Pflichten", "afb": "I", "stamm": "Was ist laut Skript die wichtigste Pflicht von Auszubildenden?", "fundstelle": "Skript M4 (Einleitungstext); Zusammenfassung BBiG, § 13", "optionen": [{"text": "die Berufsschule nach Bedarf des Betriebs zu besuchen", "richtig": false, "begruendung": "Azubis müssen an der Berufsschule teilnehmen (§ 13 BBiG, Zusammenfassung BBiG)."}, {"text": "die Ausbildungsnachweise des Ausbilders zu unterschreiben", "richtig": false, "begruendung": "Der Azubi führt den Nachweis, der Ausbildende sieht ihn durch (§§ 13, 14 BBiG)."}, {"text": "den Anweisungen der Kollegen im Betrieb zu folgen", "richtig": false, "begruendung": "Weisungen gelten nur im Rahmen der Ausbildung und von Weisungsberechtigten (§ 13, M6 Fall 6; M11 Frage 6)."}, {"text": "die Ausbildungsmittel auf eigene Kosten zu beschaffen", "richtig": false, "begruendung": "Ausbildungsmittel stellt der Betrieb kostenlos (§ 14 BBiG, M8)."}, {"text": "sich zu bemühen, die Kenntnisse des Berufs zu erwerben", "richtig": true, "begruendung": "M4: Die wichtigste Pflicht ist, den Beruf mit größtem Bemühen zu erlernen (Lernpflicht)."}]}, {"id": 26, "format": "sc", "thema": "Rechte und Pflichten", "afb": "II", "stamm": "Lea macht eine Ausbildung zur Kauffrau für Büromanagement. Für Lernaufgaben, die sie außerhalb des Betriebs erledigen soll, braucht sie einen Laptop. Ihr Chef verlangt, dass sie ihn selbst kauft. Wie ist das zu beurteilen?", "fundstelle": "Skript M4, Situation 1 und Lösung; Aktualisierung 2026 (M8, § 14)", "optionen": [{"text": "unzulässig, die Berufsschule muss den Laptop stellen", "richtig": false, "begruendung": "Ausbildungsmittel stellt der Ausbildende, nicht die Schule (§ 14 BBiG)."}, {"text": "unzulässig, auch Geräte stellt der Betrieb kostenlos", "richtig": true, "begruendung": "Seit 2024 gehören digitale Geräte zu den Ausbildungsmitteln, die der Betrieb kostenlos stellt (Aktualisierung 2026)."}, {"text": "unzulässig, die IHK übernimmt die Kosten dafür", "richtig": false, "begruendung": "Die Kosten trägt der Betrieb, nicht die IHK (§ 14 BBiG, M4 Situation 1)."}, {"text": "zulässig, Geräte für zu Hause stellt der Azubi selbst", "richtig": false, "begruendung": "Gerade Geräte für die Ausbildung außerhalb des Betriebs sind ausdrücklich erfasst (Aktualisierung 2026)."}, {"text": "zulässig, kostenlos sind Werkzeuge, aber keine Geräte", "richtig": false, "begruendung": "Ausbildungsmittel umfassen seit 2024 auch digitale Geräte und Software (Zusammenfassung BBiG, § 14)."}]}, {"id": 27, "format": "sc", "thema": "Rechte und Pflichten", "afb": "II", "stamm": "Die Inhaberin eines Supermarkts bittet ihren Auszubildenden Tom, jeden Freitag ihr privates Auto zu waschen. Wie ist das zu beurteilen?", "fundstelle": "Skript M4, Situation 3 und Lösung (§ 14 Abs. 3 BBiG); AB2 BBiG, Fall 6", "optionen": [{"text": "Tom darf ablehnen, sie dient nicht dem Ausbildungszweck.", "richtig": true, "begruendung": "§ 14 BBiG: Azubis dürfen nur Aufgaben übertragen werden, die dem Ausbildungszweck dienen (M4, Situation 3)."}, {"text": "Tom muss es tun, wenn er dafür eine Extra-Vergütung erhält.", "richtig": false, "begruendung": "Auch gegen Bezahlung bleibt eine private Tätigkeit ausbildungsfremd (§ 14 BBiG, M4)."}, {"text": "Tom darf ablehnen, solange er noch in der Probezeit ist.", "richtig": false, "begruendung": "Das Verbot ausbildungsfremder Tätigkeiten gilt während der ganzen Ausbildung (§ 14 BBiG)."}, {"text": "Tom muss es tun, weil er Weisungen des Betriebs befolgen muss.", "richtig": false, "begruendung": "Die Befolgungspflicht gilt nur für Weisungen im Rahmen der Ausbildung (§ 13 BBiG)."}, {"text": "Tom muss es tun, weil Azubis viele Tätigkeiten kennenlernen.", "richtig": false, "begruendung": "Das Argument „alle Tätigkeiten kennenlernen“ deckt keine privaten Erledigungen (M4; AB2 Fall 6)."}]}, {"id": 28, "format": "sc", "thema": "Rechte und Pflichten", "afb": "II", "stamm": "Jakob hält das Berichtsheft für Zeitverschwendung und führt seinen Ausbildungsnachweis nicht. Welche Folge kann das für ihn haben?", "fundstelle": "Zusammenfassung BBiG, §§ 13 und 37–50", "optionen": [{"text": "Er verliert dadurch automatisch seine Ausbildungsvergütung.", "richtig": false, "begruendung": "Ein automatischer Verlust der Vergütung ist nicht vorgesehen (§§ 17–19 BBiG)."}, {"text": "Er muss die Probezeit noch einmal von vorn beginnen.", "richtig": false, "begruendung": "Die Probezeit gibt es nur zu Beginn der Ausbildung (§ 20 BBiG)."}, {"text": "Er wird dann nicht zur Abschlussprüfung zugelassen.", "richtig": true, "begruendung": "Zugelassen wird nur, wer die Ausbildungsnachweise geführt hat (§ 43 BBiG, Zusammenfassung BBiG)."}, {"text": "Er muss die Zwischenprüfung noch einmal ablegen.", "richtig": false, "begruendung": "Die Folge betrifft die Zulassung zur Abschlussprüfung (§ 43 BBiG)."}, {"text": "Er kann die Nachweise nach der Prüfung nachreichen.", "richtig": false, "begruendung": "Die Nachweise sind Voraussetzung für die Zulassung, also vor der Prüfung nötig (§ 43 BBiG)."}]}, {"id": 29, "format": "sc", "thema": "Rechte und Pflichten", "afb": "II", "stamm": "Can macht eine Ausbildung zum Kaufmann für Büromanagement. Er erzählt seinen Freunden, welche Kunden seines Betriebs ihre Rechnungen nicht bezahlen. Wie ist das zu beurteilen?", "fundstelle": "Skript M6, Fall 5 und Lösung; Zusammenfassung BBiG, § 13", "optionen": [{"text": "Er verletzt seine Pflicht, Geschäftsgeheimnisse zu wahren.", "richtig": true, "begruendung": "§ 13 BBiG: Azubis müssen über Betriebs- und Geschäftsgeheimnisse schweigen (M6, Fall 5)."}, {"text": "Er verletzt die Pflicht, Werkzeuge pfleglich zu behandeln.", "richtig": false, "begruendung": "Diese Pflicht gibt es, sie betrifft aber nicht das Weitererzählen (§ 13 BBiG)."}, {"text": "Er verletzt die Pflicht, den Ausbildungsnachweis zu führen.", "richtig": false, "begruendung": "Mit dem Ausbildungsnachweis hat der Fall nichts zu tun (§ 13 BBiG)."}, {"text": "Er verletzt keine Pflicht, weil er es privat Freunden erzählt.", "richtig": false, "begruendung": "Die Schweigepflicht gilt gegenüber allen Außenstehenden (M6, Fall 5)."}, {"text": "Er verletzt keine Pflicht, weil er noch in der Ausbildung ist.", "richtig": false, "begruendung": "Die Pflichten aus § 13 BBiG gelten gerade für Auszubildende."}]}, {"id": 30, "format": "sc", "thema": "Rechte und Pflichten", "afb": "I", "stamm": "Ein Lagerarbeiter aus einer anderen Abteilung kommt zufällig vorbei und sagt der Auszubildenden Pia, wie sie die Ware einräumen soll. Pia lehnt das ab. Wie ist das zu beurteilen?", "fundstelle": "Skript M6, Fall 6 und Lösung (§ 13 BBiG)", "optionen": [{"text": "ein Verstoß, weil Pia damit die Betriebsordnung missachtet", "richtig": false, "begruendung": "Die Ablehnung einer nicht berechtigten Weisung verletzt die Betriebsordnung nicht (M6 Fall 6)."}, {"text": "kein Verstoß, weil Azubis den Weisungen der IHK folgen", "richtig": false, "begruendung": "Weisungen geben Ausbildende, Ausbilder und andere Berechtigte im Betrieb, nicht die IHK (§ 13 BBiG)."}, {"text": "kein Verstoß, nicht jeder darf Pia Weisungen geben", "richtig": true, "begruendung": "M6 Fall 6: Weisungsrecht haben Ausbilder und Weisungsberechtigte, nicht beliebige Beschäftigte."}, {"text": "kein Verstoß, weil Weisungen von der Berufsschule kommen", "richtig": false, "begruendung": "Im Betrieb geben Ausbilder und andere Weisungsberechtigte Weisungen (§ 13 BBiG)."}, {"text": "ein Verstoß, weil Azubis allen Beschäftigten folgen müssen", "richtig": false, "begruendung": "Die Befolgungspflicht gilt nur gegenüber Weisungsberechtigten (§ 13 BBiG, M6 Fall 6)."}]}, {"id": 31, "format": "kprim", "thema": "Rechte und Pflichten", "afb": "I", "stamm": "Beurteilen Sie, ob die folgenden Punkte zu den Pflichten von Auszubildenden gehören.", "fundstelle": "Zusammenfassung BBiG, § 13; Skript M4", "optionen": [{"text": "an der Berufsschule teilnehmen, für die sie freigestellt werden", "richtig": true, "begruendung": "§ 13 BBiG: Teilnahme an Ausbildungsmaßnahmen, für die freigestellt wird (Zusammenfassung BBiG)."}, {"text": "die für die Ausbildungsstätte geltende Ordnung beachten", "richtig": true, "begruendung": "§ 13 BBiG: Die Betriebsordnung ist zu beachten (Zusammenfassung BBiG)."}, {"text": "die nötige Fachliteratur für den Betrieb selbst bezahlen", "richtig": false, "begruendung": "Fachliteratur gehört zu den Ausbildungsmitteln, die der Betrieb kostenlos stellt (M8, § 14)."}, {"text": "den Betrieb bei Krankheit unverzüglich informieren", "richtig": true, "begruendung": "Zusammenfassung BBiG, § 13: Bei Krankheit muss der Betrieb unverzüglich informiert werden."}]}, {"id": 32, "format": "kprim", "thema": "Rechte und Pflichten", "afb": "II", "stamm": "Beurteilen Sie, ob der Ausbildungsbetrieb jeweils im Einklang mit seinen Pflichten aus dem BBiG handelt.", "fundstelle": "Zusammenfassung BBiG, § 14; Skript M4 (Situation 3), M6 (Fall 3)", "optionen": [{"text": "Der Betrieb sieht die Ausbildungsnachweise des Azubis regelmäßig durch.", "richtig": true, "begruendung": "§ 14 BBiG: Ausbildende halten zum Ausbildungsnachweis an und sehen ihn durch (M6, Fall 3)."}, {"text": "Der Betrieb beauftragt mit der Ausbildung eine Person ohne Eignung.", "richtig": false, "begruendung": "Ausbilden darf nur, wer persönlich und fachlich geeignet ist (§§ 14, 27–30 BBiG)."}, {"text": "Der Betrieb lässt den Azubi Einkäufe für die Chefin privat erledigen.", "richtig": false, "begruendung": "Private Erledigungen dienen nicht dem Ausbildungszweck (§ 14 BBiG, M4 Situation 3)."}, {"text": "Der Betrieb lässt den Azubi bei viel Arbeit statt zur Berufsschule im Laden arbeiten.", "richtig": false, "begruendung": "Der Betrieb muss für die Berufsschule freistellen und zum Besuch anhalten (§§ 14, 15 BBiG)."}]}, {"id": 33, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "I", "stamm": "Gilt für Auszubildende der gesetzliche Mindestlohn?", "fundstelle": "Aktualisierung 2026, Kasten Mindestausbildungsvergütung; Zusammenfassung BBiG, §§ 17–19", "optionen": [{"text": "ja, aber erst ab dem zweiten Ausbildungsjahr", "richtig": false, "begruendung": "Azubis fallen in keinem Ausbildungsjahr unter das Mindestlohngesetz (Zusammenfassung BBiG)."}, {"text": "nein, es gilt die Mindestausbildungsvergütung", "richtig": true, "begruendung": "Azubis bekommen keinen Mindestlohn; für sie gilt die Mindestausbildungsvergütung (Aktualisierung 2026)."}, {"text": "nein, für sie gibt es keine feste Untergrenze", "richtig": false, "begruendung": "Es gibt die Mindestausbildungsvergütung nach § 17 BBiG (Aktualisierung 2026)."}, {"text": "ja, sobald die Auszubildenden volljährig sind", "richtig": false, "begruendung": "Auch volljährige Azubis bekommen keinen Mindestlohn (Aktualisierung 2026)."}, {"text": "ja, aber lediglich für geleistete Überstunden", "richtig": false, "begruendung": "Überstunden werden besonders vergütet oder ausgeglichen, der Mindestlohn gilt nicht (§ 17 Abs. 7 BBiG)."}]}, {"id": 34, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "I", "stamm": "Wie muss sich die Ausbildungsvergütung laut BBiG im Lauf der Ausbildung entwickeln?", "fundstelle": "AB BBiG, Nr. 12; Zusammenfassung BBiG, §§ 17–19", "optionen": [{"text": "Sie muss steigen, sobald ein Tarif gilt.", "richtig": false, "begruendung": "Der jährliche Anstieg gilt für alle Ausbildungsverhältnisse (§ 17 BBiG)."}, {"text": "Sie muss bei guten Schulnoten steigen.", "richtig": false, "begruendung": "Der Anstieg ist Pflicht und nicht an Noten gebunden (§ 17 BBiG)."}, {"text": "Sie muss nach der Zwischenprüfung steigen.", "richtig": false, "begruendung": "Der Anstieg hängt nicht an Prüfungen, sondern erfolgt mindestens jährlich (§ 17 BBiG)."}, {"text": "Sie muss über die Jahre gleich bleiben.", "richtig": false, "begruendung": "Eine gleichbleibende Vergütung ist unzulässig (AB Vertrag Lösung, Fall 3 Nr. 4)."}, {"text": "Sie muss mindestens jährlich ansteigen.", "richtig": true, "begruendung": "§ 17 BBiG: angemessene Vergütung, die mindestens jährlich ansteigt (AB BBiG Nr. 12)."}]}, {"id": 35, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "I", "stamm": "Bis wann muss der Betrieb die Ausbildungsvergütung für einen Monat spätestens zahlen?", "fundstelle": "Zusammenfassung BBiG, §§ 17–19 (§ 18 BBiG)", "optionen": [{"text": "am ersten Arbeitstag des Folgemonats", "richtig": false, "begruendung": "Das ist zu spät; spätestens am letzten Arbeitstag des laufenden Monats (§ 18)."}, {"text": "am Ende des jeweiligen Quartals", "richtig": false, "begruendung": "Die Vergütung ist monatlich zu zahlen (§ 18 BBiG)."}, {"text": "nach Abgabe des Berichtshefts", "richtig": false, "begruendung": "Die Zahlung hängt nicht vom Berichtsheft ab (§ 18 BBiG)."}, {"text": "am letzten Arbeitstag des Monats", "richtig": true, "begruendung": "§ 18 BBiG: spätestens am letzten Arbeitstag des Monats (Zusammenfassung BBiG)."}, {"text": "am 15. Tag des Folgemonats", "richtig": false, "begruendung": "Das ist zu spät; spätestens am letzten Arbeitstag des laufenden Monats (§ 18)."}]}, {"id": 36, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "II", "stamm": "Die volljährige Auszubildende Nora arbeitet im Weihnachtsgeschäft regelmäßig länger als vereinbart. Was steht ihr dafür zu?", "fundstelle": "AB BBiG, Nr. 12; Zusammenfassung BBiG, § 17 Abs. 7", "optionen": [{"text": "ein Ausgleich, sofern ein Tarifvertrag es vorsieht", "richtig": false, "begruendung": "Der Anspruch steht im BBiG selbst, nicht erst im Tarifvertrag (§ 17 Abs. 7)."}, {"text": "nichts, weil Überstunden zur Ausbildung gehören", "richtig": false, "begruendung": "Überstunden müssen ausgeglichen werden (AB BBiG Nr. 12)."}, {"text": "eine Bezahlung erst ab der zehnten Überstunde", "richtig": false, "begruendung": "Jede Überstunde ist zu vergüten oder auszugleichen (§ 17 Abs. 7)."}, {"text": "zusätzlicher Urlaub nach dem Urlaubsgesetz", "richtig": false, "begruendung": "Das BUrlG regelt Mindesturlaub; Überstunden regelt § 17 Abs. 7 BBiG."}, {"text": "eine besondere Vergütung oder Freizeitausgleich", "richtig": true, "begruendung": "§ 17 Abs. 7 BBiG: Überstunden sind besonders zu vergüten oder durch Freizeit auszugleichen."}]}, {"id": 37, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "II", "stamm": "Max (19) hat dienstags sechs Unterrichtsstunden à 45 Minuten. Es ist sein einziger Berufsschultag in dieser Woche. Was gilt für den Rest des Tages?", "fundstelle": "IB Berufsschulunterricht 2026 (Tabelle, Zeile 2); Zusammenfassung BBiG, § 15", "optionen": [{"text": "Er muss nicht hin, bekommt für den Tag aber kein Geld.", "richtig": false, "begruendung": "Für Freistellungszeiten wird die Vergütung weitergezahlt (§ 19 BBiG, IB Berufsschule)."}, {"text": "Er muss danach in den Betrieb, weil er volljährig ist.", "richtig": false, "begruendung": "Seit 2020 gilt die Regel auch für Volljährige (IB Berufsschule; Zusammenfassung BBiG, § 15)."}, {"text": "Er muss nicht mehr in den Betrieb, der Tag zählt voll.", "richtig": true, "begruendung": "Mehr als 5 Unterrichtsstunden: einmal pro Woche ganzer Tag frei, zählt als voller Ausbildungstag (IB Berufsschule)."}, {"text": "Er muss danach noch zwei Stunden in den Betrieb.", "richtig": false, "begruendung": "Der Tag ist ganz frei und zählt als durchschnittlicher Ausbildungstag (IB Berufsschule)."}, {"text": "Er muss die Schulzeit am Samstag im Betrieb nachholen.", "richtig": false, "begruendung": "Die Schulzeit wird angerechnet, nachgearbeitet wird nicht (§ 15 BBiG)."}]}, {"id": 38, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "II", "stamm": "Sophie hat vier Stunden Unterricht bis 11:15 Uhr. Danach fährt sie 30 Minuten von der Schule in den Betrieb. Wird diese Fahrzeit auf ihre Ausbildungszeit angerechnet?", "fundstelle": "IB Berufsschulunterricht 2026 (Zeile Wegezeiten); Aktualisierung 2026 (§ 15 BBiG)", "optionen": [{"text": "nein, Fahrzeiten sind Privatsache des Azubis", "richtig": false, "begruendung": "Seit 2024 werden Wegezeiten zwischen Schule und Betrieb angerechnet (Aktualisierung 2026)."}, {"text": "nein, es zählt der Weg von zu Hause zur Schule", "richtig": false, "begruendung": "Umgekehrt: Der Weg von zu Hause zur Schule zählt gerade nicht (IB Berufsschule)."}, {"text": "ja, sofern Sophie noch nicht volljährig ist", "richtig": false, "begruendung": "Die Regel in § 15 BBiG gilt für alle Azubis (IB Berufsschule)."}, {"text": "ja, der Weg von der Schule zum Betrieb zählt", "richtig": true, "begruendung": "Seit 1.8.2024 zählt die notwendige Wegezeit zwischen Berufsschule und Betrieb (IB Berufsschule)."}, {"text": "ja, zur Hälfte, weil dabei kein Unterricht ist", "richtig": false, "begruendung": "Die notwendige Wegezeit wird angerechnet, eine Halbierung ist nicht vorgesehen (IB Berufsschule)."}]}, {"id": 39, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "II", "stamm": "Der Unterricht von Elias (20) beginnt um 8:30 Uhr. Sein Chef möchte, dass er vorher von 7:00 bis 8:00 Uhr im Lager hilft. Wie ist das zu beurteilen?", "fundstelle": "IB Berufsschulunterricht 2026 (Zeile 1); Zusammenfassung BBiG, § 15", "optionen": [{"text": "zulässig, wenn der Schulweg kürzer als 15 Minuten ist", "richtig": false, "begruendung": "Die Länge des Schulwegs spielt für das Verbot keine Rolle (IB Berufsschule)."}, {"text": "unzulässig, auch Volljährige dürfen dann nicht arbeiten", "richtig": true, "begruendung": "Beginnt der Unterricht vor 9 Uhr, ist kein Einsatz vorher erlaubt, auch nicht für Volljährige (IB Berufsschule)."}, {"text": "zulässig, wenn Elias die Stunde als Überstunde bezahlt bekommt", "richtig": false, "begruendung": "Eine Bezahlung ändert nichts am Beschäftigungsverbot vor dem Unterricht (§ 15 BBiG)."}, {"text": "zulässig, weil das Verbot für Jugendliche unter 18 gilt", "richtig": false, "begruendung": "Seit 2020 gilt die Regel auch für Volljährige (Zusammenfassung BBiG, § 15)."}, {"text": "unzulässig, weil Azubis erst ab 8 Uhr arbeiten dürfen", "richtig": false, "begruendung": "Eine solche Regel gibt es nicht; maßgeblich ist der Unterrichtsbeginn vor 9 Uhr (IB Berufsschule)."}]}, {"id": 40, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "II", "stamm": "Lina hat eine Blockwoche mit 30 Unterrichtsstunden an fünf Tagen. Ihr Betrieb möchte, dass sie am Samstag derselben Woche vier Stunden im Laden verkauft. Wie ist das zu beurteilen?", "fundstelle": "IB Berufsschulunterricht 2026 (Zeile Blockunterricht); Zusammenfassung BBiG, § 15", "optionen": [{"text": "unzulässig, die Woche zählt als volle Wochenarbeitszeit", "richtig": true, "begruendung": "Blockunterricht mit mind. 25 Std. an 5 Tagen: Woche frei, zählt als volle Wochenarbeitszeit (IB Berufsschule)."}, {"text": "unzulässig, weil Azubis samstags generell frei haben", "richtig": false, "begruendung": "Samstagsarbeit kann in manchen Branchen erlaubt sein; hier verbietet es die Blockwoche (IB Berufsschule)."}, {"text": "zulässig, weil Tage über 5 Stunden einzeln angerechnet werden", "richtig": false, "begruendung": "Bei Blockunterricht wird die ganze Woche angerechnet (IB Berufsschule)."}, {"text": "zulässig, wenn sie dafür am Montag danach frei bekommt", "richtig": false, "begruendung": "Ein späterer Ausgleich ändert nichts an der Anrechnung der Blockwoche (§ 15 BBiG)."}, {"text": "zulässig, weil der Samstag kein Berufsschultag ist", "richtig": false, "begruendung": "Die ganze Woche ist frei; erlaubt sind nur betriebliche Ausbildungsveranstaltungen bis 2 Std. (IB Berufsschule)."}]}, {"id": 41, "format": "sc", "thema": "Vergütung und Berufsschulzeit", "afb": "I", "stamm": "Welcher Tag ist für Auszubildende vor der schriftlichen Abschlussprüfung zusätzlich frei?", "fundstelle": "IB Berufsschulunterricht 2026 (Zeile Prüfungen); Zusammenfassung BBiG, § 15", "optionen": [{"text": "die ganze Woche vor der Prüfung", "richtig": false, "begruendung": "Frei ist nur der Arbeitstag unmittelbar davor (IB Berufsschule)."}, {"text": "ein halber Arbeitstag am Tag davor", "richtig": false, "begruendung": "Der ganze Arbeitstag vor der Prüfung ist frei (IB Berufsschule)."}, {"text": "der Arbeitstag direkt vor der Prüfung", "richtig": true, "begruendung": "Der Arbeitstag vor der schriftlichen Abschlussprüfung ist frei (IB Berufsschule; § 15 BBiG)."}, {"text": "kein zusätzlicher Tag außer der Prüfung", "richtig": false, "begruendung": "Zusätzlich zum Prüfungstag ist der Vortag frei (IB Berufsschule)."}, {"text": "der Arbeitstag nach der Prüfung", "richtig": false, "begruendung": "Frei ist der Tag vor, nicht nach der Prüfung (§ 15 BBiG)."}]}, {"id": 42, "format": "kprim", "thema": "Vergütung und Berufsschulzeit", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zur Ausbildungsvergütung zutreffen.", "fundstelle": "Aktualisierung 2026, Kasten Mindestausbildungsvergütung; Zusammenfassung BBiG, §§ 17–19", "optionen": [{"text": "Ein für den Betrieb geltender Tarifvertrag darf die Mindestvergütung unterschreiten.", "richtig": true, "begruendung": "§ 17 Abs. 3 BBiG: Ein Tarifvertrag darf die Mindestvergütung unterschreiten (Aktualisierung 2026)."}, {"text": "Für die Höhe der Mindestvergütung ist das Jahr maßgeblich, in dem die Ausbildung beginnt.", "richtig": true, "begruendung": "Maßgeblich ist das Jahr des Ausbildungsbeginns (Aktualisierung 2026)."}, {"text": "Im dritten Ausbildungsjahr liegt die Mindestvergütung 35 % über dem ersten Jahr.", "richtig": true, "begruendung": "Aufschläge: 2. Jahr +18 %, 3. Jahr +35 %, 4. Jahr +40 % (Zusammenfassung BBiG)."}, {"text": "Für die Zeit in der Berufsschule muss der Betrieb keine Vergütung zahlen.", "richtig": false, "begruendung": "§ 19 BBiG: Für Freistellungszeiten wird die Vergütung weitergezahlt (Zusammenfassung BBiG)."}]}, {"id": 43, "format": "kprim", "thema": "Vergütung und Berufsschulzeit", "afb": "I", "stamm": "Paul (18) hat eine 40-Stunden-Woche (8 Std. pro Tag). Montag hat er sechs Unterrichtsstunden, Donnerstag vier Unterrichtsstunden von 8:00 bis 11:15 Uhr. Danach fährt er 20 Minuten in den Betrieb. Beurteilen Sie die Aussagen.", "fundstelle": "IB Berufsschulunterricht 2026 (Beispiel Lea und Tabelle)", "optionen": [{"text": "Der Montag wird mit 8 Stunden auf die Ausbildungszeit angerechnet.", "richtig": true, "begruendung": "Mehr als 5 Unterrichtsstunden: ganzer Tag, angerechnet wird die durchschnittliche tägliche Zeit (IB Berufsschule)."}, {"text": "Am Donnerstag werden 3 Stunden 35 Minuten angerechnet.", "richtig": true, "begruendung": "3 Std. 15 Min. Unterricht inkl. Pausen + 20 Min. Weg = 3 Std. 35 Min. (IB Berufsschule)."}, {"text": "Am Donnerstag darf Paul nach der Schule nicht mehr in den Betrieb.", "richtig": false, "begruendung": "Ganz frei ist nur ein Tag mit mehr als 5 Stunden pro Woche; danach darf der Betrieb ihn holen (IB Berufsschule)."}, {"text": "Weil Paul volljährig ist, muss er am Montag nach der Schule in den Betrieb.", "richtig": false, "begruendung": "Seit 2020 gilt die Regel für Volljährige genauso (IB Berufsschule)."}]}, {"id": 44, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "I", "stamm": "Wie lange darf die Probezeit in einem Ausbildungsverhältnis dauern?", "fundstelle": "Skript M6, Aufg. 4 und Lösung; Zusammenfassung BBiG, § 20", "optionen": [{"text": "mindestens einen und höchstens vier Monate", "richtig": true, "begruendung": "§ 20 BBiG: mindestens ein Monat, höchstens vier Monate (Zusammenfassung BBiG)."}, {"text": "mindestens zwei Wochen, höchstens sechs Monate", "richtig": false, "begruendung": "Weniger als ein Monat ist unzulässig (AB Vertrag Fall 2), mehr als vier ebenso (Fall 3)."}, {"text": "genau sechs Monate wie in einem Arbeitsvertrag", "richtig": false, "begruendung": "Sechs Monate sind in der Ausbildung unzulässig (AB Vertrag Lösung, Fall 3 Nr. 2)."}, {"text": "höchstens zwei Wochen ab Ausbildungsbeginn", "richtig": false, "begruendung": "Die Probezeit muss mindestens einen Monat dauern (§ 20 BBiG)."}, {"text": "mindestens drei und höchstens sechs Monate", "richtig": false, "begruendung": "Die Obergrenze liegt bei vier Monaten (§ 20 BBiG)."}]}, {"id": 45, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Ayla hat am 1. August ihre Ausbildung mit vier Monaten Probezeit begonnen. Mitte September möchte sie die Ausbildung beenden. Was muss sie beachten?", "fundstelle": "Zusammenfassung BBiG, §§ 20 und 22; 6.2 Vertiefung Kündigung (Lösung 2026), Fall Tommy", "optionen": [{"text": "Sie muss im Kündigungsschreiben einen wichtigen Grund nennen.", "richtig": false, "begruendung": "In der Probezeit ist kein Grund nötig (§ 22 Abs. 1 BBiG)."}, {"text": "Sie kann erst nach dem Ende der Probezeit wirksam kündigen.", "richtig": false, "begruendung": "Gerade in der Probezeit ist die Kündigung jederzeit möglich (§ 22 Abs. 1 BBiG)."}, {"text": "Sie kann ohne Frist kündigen, eine mündliche Kündigung reicht.", "richtig": false, "begruendung": "Jede Kündigung muss schriftlich erfolgen (§ 22 Abs. 3 BBiG)."}, {"text": "Sie kann ohne Frist und ohne Grund kündigen, aber schriftlich.", "richtig": true, "begruendung": "In der Probezeit: jederzeit, ohne Frist und ohne Grund, aber schriftlich (§ 22 Abs. 1 und 3 BBiG)."}, {"text": "Sie kann schriftlich mit einer Frist von vier Wochen kündigen.", "richtig": false, "begruendung": "Die Vier-Wochen-Frist gilt erst nach der Probezeit beim Berufswechsel (§ 22 Abs. 2 Nr. 2)."}]}, {"id": 46, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Mara ist im zweiten Ausbildungsjahr. Ihr Betrieb will ihr kündigen, weil sie in der Berufsschule nur Vieren schreibt. Wie ist die Kündigung zu beurteilen?", "fundstelle": "Skript M5 (Tabelle: keine Kündigungsgründe); 6.2 Vertiefung Kündigung (Lösung 2026), Fall Justin", "optionen": [{"text": "wirksam, wenn der Betrieb vier Wochen Frist einhält", "richtig": false, "begruendung": "Der Betrieb kann nach der Probezeit nicht ordentlich mit Frist kündigen (§ 22 Abs. 2 BBiG)."}, {"text": "wirksam, wenn Mara vorher abgemahnt wurde", "richtig": false, "begruendung": "Schlechte Noten bleiben auch nach Abmahnung kein Kündigungsgrund (M5, Tabelle)."}, {"text": "wirksam, wenn die Kündigung schriftlich erfolgt", "richtig": false, "begruendung": "Die Schriftform allein reicht nicht; es fehlt ein wichtiger Grund (§ 22 Abs. 2 und 3 BBiG)."}, {"text": "wirksam, weil ihr Ausbildungsziel gefährdet ist", "richtig": false, "begruendung": "Der Betrieb muss vielmehr fördern; Noten rechtfertigen keine Kündigung (6.2 Vertiefung, Fall Justin)."}, {"text": "unwirksam, Noten sind kein wichtiger Grund", "richtig": true, "begruendung": "M5: Schlechte Schulnoten sind keine Kündigungsgründe (auch 6.2 Vertiefung, Fall Justin)."}]}, {"id": 47, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Felix ist nach der Probezeit. Er möchte seine Ausbildung zum Kaufmann für Büromanagement in einem anderen Betrieb fortsetzen, weil ihm das Team dort besser gefällt. Was ist möglich?", "fundstelle": "Aktualisierung 2026 (M5, Kündigung durch Azubi); 6.2 Vertiefung Kündigung (Lösung 2026), Fall Maren", "optionen": [{"text": "eine Kündigung, sobald die IHK dem Wechsel zustimmt", "richtig": false, "begruendung": "Eine Zustimmung der IHK ist nicht vorgesehen; möglich ist ein Aufhebungsvertrag (Zusammenfassung BBiG, § 22)."}, {"text": "keine ordentliche Kündigung, aber ein Aufhebungsvertrag", "richtig": true, "begruendung": "Wechsel des Betriebs im gleichen Beruf: keine Kündigung nach § 22 Abs. 2 Nr. 2, nur Aufhebungsvertrag (Aktualisierung 2026)."}, {"text": "eine Kündigung jederzeit ohne Frist, weil er den Beruf behält", "richtig": false, "begruendung": "Fristlos geht nur aus wichtigem Grund; ein schöneres Team ist keiner (M5, Lösung c)."}, {"text": "eine Kündigung mit vier Wochen Frist wegen Betriebswechsels", "richtig": false, "begruendung": "Die Vier-Wochen-Frist gilt nur bei Aufgabe der Ausbildung oder anderem Beruf (§ 22 Abs. 2 Nr. 2)."}, {"text": "eine Kündigung mit zwei Wochen Frist ohne Angabe von Gründen", "richtig": false, "begruendung": "Eine solche Kündigungsmöglichkeit gibt es in der Ausbildung nicht (§ 22 BBiG)."}]}, {"id": 48, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Lea ist im zweiten Ausbildungsjahr zur Kauffrau im Einzelhandel und möchte stattdessen eine Ausbildung zur Köchin beginnen. Wie kann sie kündigen?", "fundstelle": "Zusammenfassung BBiG, § 22; Kündigung AB (§ 22 Abs. 2 Nr. 2, Abs. 3 BBiG)", "optionen": [{"text": "schriftlich, ohne Grund und ohne Frist", "richtig": false, "begruendung": "Ohne Frist und Grund geht es nur in der Probezeit (§ 22 Abs. 1 BBiG)."}, {"text": "fristlos, weil sie den Beruf wechselt", "richtig": false, "begruendung": "Für den Berufswechsel gibt es die Kündigung mit vier Wochen Frist (§ 22 Abs. 2 Nr. 2)."}, {"text": "schriftlich, mit Grund und vier Wochen Frist", "richtig": true, "begruendung": "§ 22 Abs. 2 Nr. 2 und Abs. 3: Berufswechsel mit vier Wochen Frist, schriftlich mit Grund."}, {"text": "mündlich, mit Grund und vier Wochen Frist", "richtig": false, "begruendung": "Jede Kündigung muss schriftlich erfolgen (§ 22 Abs. 3 BBiG)."}, {"text": "schriftlich, mit Grund und drei Monaten Frist", "richtig": false, "begruendung": "Die Frist beträgt vier Wochen (§ 22 Abs. 2 Nr. 2 BBiG)."}]}, {"id": 49, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Der Betrieb erfährt am 3. März, dass der Auszubildende Jonas Geld unterschlagen hat. Am 24. März kündigt er ihm schriftlich und fristlos mit Angabe des Grundes. Wie ist die Kündigung zu beurteilen?", "fundstelle": "Kündigung AB (§ 22 Abs. 4 BBiG); IHK-Rechenaufgaben, Aufg. 4d", "optionen": [{"text": "unwirksam, weil vorher eine Abmahnung nötig wäre", "richtig": false, "begruendung": "Bei Unterschlagung ist keine Abmahnung nötig (M5; AB Abmahnung Nr. 2)."}, {"text": "unwirksam, weil mehr als zwei Wochen vergangen sind", "richtig": true, "begruendung": "§ 22 Abs. 4: Die Tatsachen dürfen nicht länger als zwei Wochen bekannt sein (Frist endete am 17. März)."}, {"text": "wirksam, weil fristlose Kündigungen keine Frist haben", "richtig": false, "begruendung": "Es gibt keine Kündigungsfrist, aber eine Zwei-Wochen-Frist ab Kenntnis (§ 22 Abs. 4 BBiG)."}, {"text": "wirksam, weil Unterschlagung ein wichtiger Grund ist", "richtig": false, "begruendung": "Der Grund reicht, aber die Zwei-Wochen-Frist ist verstrichen (§ 22 Abs. 4 BBiG)."}, {"text": "unwirksam, weil die Probezeit schon vorbei ist", "richtig": false, "begruendung": "Nach der Probezeit ist eine Kündigung aus wichtigem Grund möglich (§ 22 Abs. 2 Nr. 1 BBiG)."}]}, {"id": 50, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "I", "stamm": "Ilka besteht am Donnerstag ihre Abschlussprüfung. Am Montag kommt sie ohne neue Absprache in den Betrieb und arbeitet wie gewohnt weiter. Was gilt?", "fundstelle": "AB BBiG, Nr. 16; Zusammenfassung BBiG, § 24", "optionen": [{"text": "Es gilt ein auf sechs Monate befristetes Arbeitsverhältnis.", "richtig": false, "begruendung": "§ 24 BBiG begründet ein unbefristetes Arbeitsverhältnis (Zusammenfassung BBiG)."}, {"text": "Sie bleibt Auszubildende bis zum ursprünglichen Vertragsende.", "richtig": false, "begruendung": "Mit Bekanntgabe des bestandenen Ergebnisses endet die Ausbildung (§ 21 Abs. 2 BBiG)."}, {"text": "Es beginnt eine neue Probezeit von vier Monaten.", "richtig": false, "begruendung": "Eine neue Probezeit nach BBiG gibt es nach dem Ende der Ausbildung nicht (§ 24 BBiG)."}, {"text": "Sie hat keinen Vertrag und muss erst neu verhandeln.", "richtig": false, "begruendung": "Sie muss nicht neu verhandeln, das Arbeitsverhältnis entsteht automatisch (AB BBiG Nr. 16)."}, {"text": "Es gilt ein unbefristetes Arbeitsverhältnis als begründet.", "richtig": true, "begruendung": "§ 24 BBiG: Wer ohne Vereinbarung weiterarbeitet, hat ein unbefristetes Arbeitsverhältnis (AB BBiG Nr. 16)."}]}, {"id": 51, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Emmas Ausbildungsvertrag läuft bis zum 31. Juli. Am 20. Juni besteht sie die mündliche Prüfung; der Prüfungsausschuss teilt es ihr am selben Tag mit. Wann endet ihr Ausbildungsverhältnis?", "fundstelle": "Skript M8 (§ 21); Zusammenfassung BBiG, § 21; IHK-Rechenaufgaben, Aufg. 6", "optionen": [{"text": "am 20. Juni mit Bekanntgabe des Ergebnisses", "richtig": true, "begruendung": "§ 21 Abs. 2 BBiG: Bei vorzeitigem Bestehen endet die Ausbildung mit Bekanntgabe des Ergebnisses."}, {"text": "erst wenn das IHK-Zeugnis bei ihr eingeht", "richtig": false, "begruendung": "Maßgeblich ist die Bekanntgabe durch den Prüfungsausschuss (§ 21 Abs. 2 BBiG)."}, {"text": "am 30. Juni zum Ende des laufenden Monats", "richtig": false, "begruendung": "Ein Monatsende ist nicht maßgeblich, sondern die Bekanntgabe (§ 21 Abs. 2)."}, {"text": "am 31. Juli mit Ablauf der vereinbarten Zeit", "richtig": false, "begruendung": "Das gilt nur, wenn die Prüfung nicht vorher bestanden wird (§ 21 Abs. 1 BBiG)."}, {"text": "am 18. Juli, vier Wochen nach der Prüfung", "richtig": false, "begruendung": "Eine Frist von vier Wochen gibt es hier nicht (§ 21 Abs. 2 BBiG)."}]}, {"id": 52, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Lukas hat die Abschlussprüfung nicht bestanden. Seine Ausbildungszeit endet regulär in zwei Wochen. Was kann Lukas tun?", "fundstelle": "AB BBiG, Nr. 14; Zusammenfassung BBiG, § 21 Abs. 3", "optionen": [{"text": "automatisch zwei weitere Jahre in der Ausbildung bleiben", "richtig": false, "begruendung": "Die Verlängerung erfolgt nur auf Verlangen und höchstens um ein Jahr (§ 21 Abs. 3)."}, {"text": "einen neuen Ausbildungsvertrag mit neuer Probezeit schließen", "richtig": false, "begruendung": "Ein neuer Vertrag ist nicht nötig; die Ausbildung verlängert sich auf Verlangen (§ 21 Abs. 3)."}, {"text": "bei der Berufsschule ein zusätzliches Schuljahr beantragen", "richtig": false, "begruendung": "Die Verlängerung des Ausbildungsverhältnisses verlangt man vom Betrieb (§ 21 Abs. 3 BBiG)."}, {"text": "die Verlängerung bis zur nächsten Wiederholungsprüfung verlangen", "richtig": true, "begruendung": "§ 21 Abs. 3: Auf Verlangen verlängert sich die Ausbildung bis zur Wiederholungsprüfung, höchstens ein Jahr."}, {"text": "die Prüfung ohne weitere Ausbildung erst nach drei Jahren wiederholen", "richtig": false, "begruendung": "Die Wiederholung ist zur nächstmöglichen Prüfung möglich (§ 21 Abs. 3; § 37 BBiG)."}]}, {"id": 53, "format": "sc", "thema": "Probezeit, Kündigung und Beendigung", "afb": "I", "stamm": "Innerhalb welcher Frist muss ein Anspruch auf Schadensersatz nach § 23 BBiG geltend gemacht werden?", "fundstelle": "Kündigung AB (§ 23 Abs. 2 BBiG); Zusammenfassung BBiG, § 23", "optionen": [{"text": "innerhalb von zwei Wochen nach Ende der Ausbildung", "richtig": false, "begruendung": "Zwei Wochen ist die Frist für die Kündigung ab Kenntnis (§ 22 Abs. 4), nicht für Schadensersatz."}, {"text": "innerhalb von vier Wochen nach Ende der Ausbildung", "richtig": false, "begruendung": "Vier Wochen ist die Kündigungsfrist beim Berufswechsel (§ 22 Abs. 2 Nr. 2)."}, {"text": "innerhalb von drei Monaten nach Ende der Ausbildung", "richtig": true, "begruendung": "§ 23 Abs. 2: Der Anspruch erlischt, wenn er nicht binnen drei Monaten geltend gemacht wird."}, {"text": "innerhalb von sechs Monaten nach Ende der Ausbildung", "richtig": false, "begruendung": "Die Frist beträgt drei Monate (§ 23 Abs. 2 BBiG)."}, {"text": "innerhalb eines Jahres nach Ende der Ausbildung", "richtig": false, "begruendung": "Die Frist beträgt drei Monate (§ 23 Abs. 2 BBiG)."}]}, {"id": 54, "format": "kprim", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Ole hat am 1. August eine Ausbildung mit vier Monaten Probezeit begonnen. Am 15. Oktober kündigt ihm der Betrieb. Beurteilen Sie die Aussagen.", "fundstelle": "6.2 Vertiefung Kündigung (Lösung 2026), Fall Tommy; Zusammenfassung BBiG, §§ 20, 22, 23", "optionen": [{"text": "Der Betrieb darf ohne Angabe von Gründen kündigen.", "richtig": true, "begruendung": "In der Probezeit ist keine Begründung nötig (§ 22 Abs. 1 BBiG)."}, {"text": "Der Betrieb muss eine Kündigungsfrist von zwei Wochen einhalten.", "richtig": false, "begruendung": "In der Probezeit gilt keine Kündigungsfrist (§ 22 Abs. 1 BBiG)."}, {"text": "Eine Kündigung per Messenger-Nachricht reicht aus.", "richtig": false, "begruendung": "Die Kündigung muss schriftlich erfolgen (§ 22 Abs. 3 BBiG)."}, {"text": "Ole kann vom Betrieb Schadensersatz verlangen.", "richtig": false, "begruendung": "Schadensersatz nach § 23 gibt es nur bei Lösung nach der Probezeit (6.2 Vertiefung, Fall Tommy)."}]}, {"id": 55, "format": "kprim", "thema": "Probezeit, Kündigung und Beendigung", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zur Kündigung durch den Betrieb nach der Probezeit zutreffen.", "fundstelle": "Zusammenfassung BBiG, § 22; Skript M5 (Tabelle) mit Aktualisierung 2026", "optionen": [{"text": "Der Betrieb kann nur fristlos aus einem wichtigen Grund kündigen.", "richtig": true, "begruendung": "Nach der Probezeit kann der Betrieb nur fristlos aus wichtigem Grund kündigen (§ 22 Abs. 2 Nr. 1)."}, {"text": "Der Betrieb muss die Kündigungsgründe im Schreiben angeben.", "richtig": true, "begruendung": "Nach der Probezeit ist schriftlich mit Angabe der Gründe zu kündigen (§ 22 Abs. 3)."}, {"text": "Der Betrieb kann mit vier Wochen Frist ordentlich kündigen.", "richtig": false, "begruendung": "Die Vier-Wochen-Kündigung steht nur Azubis zu (§ 22 Abs. 2 Nr. 2 BBiG)."}, {"text": "Bei einem 17-jährigen Azubi muss die Kündigung den Eltern zugehen.", "richtig": true, "begruendung": "Bei Minderjährigen muss die Kündigung den Eltern zugehen (Zusammenfassung BBiG, § 22)."}]}, {"id": 56, "format": "kprim", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Malte kündigt nach 14 Monaten seine Ausbildung zum Kaufmann im Einzelhandel schriftlich und mit Angabe des Grundes, weil er Koch werden möchte. Er hält eine Frist von vier Wochen ein. Beurteilen Sie die Aussagen.", "fundstelle": "Zusammenfassung BBiG, §§ 22 und 23; Kündigung AB", "optionen": [{"text": "Die Kündigung ist wirksam.", "richtig": true, "begruendung": "Berufswechsel nach der Probezeit: schriftlich, mit Grund, vier Wochen Frist (§ 22 Abs. 2 Nr. 2, Abs. 3)."}, {"text": "Der Betrieb kann von Malte Schadensersatz nach § 23 BBiG verlangen.", "richtig": false, "begruendung": "§ 23 Abs. 1 S. 2: kein Schadensersatz bei Kündigung wegen Berufsaufgabe oder -wechsel."}, {"text": "Die Kündigung wäre genauso möglich, wenn Malte im gleichen Beruf den Betrieb wechseln wollte.", "richtig": false, "begruendung": "Ein Betriebswechsel im gleichen Beruf ist kein Kündigungsgrund (Zusammenfassung BBiG, § 22)."}, {"text": "Eine Kündigung ohne Frist wäre in diesem Fall ebenfalls wirksam gewesen.", "richtig": false, "begruendung": "Ohne wichtigen Grund ist nach der Probezeit die Vier-Wochen-Frist einzuhalten (§ 22 Abs. 2 Nr. 2)."}]}, {"id": 57, "format": "kprim", "thema": "Probezeit, Kündigung und Beendigung", "afb": "I", "stamm": "Beurteilen Sie, ob eine Auszubildende in diesen Fällen nach der Probezeit fristlos aus wichtigem Grund kündigen kann.", "fundstelle": "Skript M5 (Tabelle, Kündigung durch Auszubildende); Zusammenfassung BBiG, § 22", "optionen": [{"text": "Der Betrieb zahlt seit Monaten keine Ausbildungsvergütung.", "richtig": true, "begruendung": "M5: Nichtzahlung der Vergütung ist ein wichtiger Grund für Azubis."}, {"text": "Der Betrieb hält sie regelmäßig von der Berufsschule fern.", "richtig": true, "begruendung": "M5: Fernhalten von der Berufsschule ist ein wichtiger Grund."}, {"text": "Sie versteht sich mit einer Kollegin nicht besonders gut.", "richtig": false, "begruendung": "Zusammenarbeit mit unsympathischen Kollegen ist zumutbar (M5, Lösung c)."}, {"text": "Sie wird von ihrem Ausbilder sexuell belästigt.", "richtig": true, "begruendung": "M5: Sexuelle Belästigung ist ein wichtiger Grund."}]}, {"id": 58, "format": "kprim", "thema": "Probezeit, Kündigung und Beendigung", "afb": "II", "stamm": "Beurteilen Sie, ob der Betrieb in diesen Fällen nach der Probezeit fristlos kündigen kann, ohne vorher abzumahnen.", "fundstelle": "Skript M5 (Tabelle, Kündigung durch Betrieb); AB Abmahnung 2026, Nr. 2; 5.3 Lösung Abmahnung", "optionen": [{"text": "Die Auszubildende stiehlt Ware aus dem Lager.", "richtig": true, "begruendung": "Bei Diebstahl ist keine vorherige Abmahnung nötig (M5; AB Abmahnung Nr. 2)."}, {"text": "Die Auszubildende kommt zum zweiten Mal zu spät.", "richtig": false, "begruendung": "Zuspätkommen ist steuerbares Verhalten, vorher ist eine Abmahnung nötig (AB Abmahnung Nr. 2)."}, {"text": "Die Auszubildende schreibt in der Berufsschule schlechte Noten.", "richtig": false, "begruendung": "Schlechte Noten sind gar kein Kündigungsgrund (M5)."}, {"text": "Die Auszubildende schlägt einen Kollegen.", "richtig": true, "begruendung": "Tätlichkeit ist ein schwerer Verstoß ohne Abmahnungserfordernis (M5; 5.3 Lösung Abmahnung)."}]}, {"id": 59, "format": "kprim", "thema": "Probezeit, Kündigung und Beendigung", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zum Aufhebungsvertrag und zum Streit über eine Kündigung zutreffen.", "fundstelle": "Zusammenfassung BBiG, § 22 (letzter Absatz); Aktualisierung 2026", "optionen": [{"text": "Ein Aufhebungsvertrag ist jederzeit möglich, wenn sich Azubi und Betrieb einigen.", "richtig": true, "begruendung": "Zusammenfassung BBiG, § 22: Jederzeit möglich ist ein Aufhebungsvertrag bei Einigung."}, {"text": "Ein Aufhebungsvertrag kann auch mündlich geschlossen werden.", "richtig": false, "begruendung": "Er muss schriftlich geschlossen werden (§ 623 BGB, Zusammenfassung BBiG)."}, {"text": "Bei Streit ist vor dem Arbeitsgericht der Schlichtungsausschuss der Kammer anzurufen, falls es einen gibt.", "richtig": true, "begruendung": "§ 111 Abs. 2 ArbGG (Zusammenfassung BBiG, § 22)."}, {"text": "Ein Aufhebungsvertrag ist nach der Probezeit unzulässig.", "richtig": false, "begruendung": "Er ist jederzeit möglich (Zusammenfassung BBiG, § 22)."}]}, {"id": 60, "format": "sc", "thema": "Abmahnung", "afb": "I", "stamm": "Was unterscheidet eine Abmahnung von einer Ermahnung?", "fundstelle": "AB Abmahnung 2026, Nr. 1 und 7", "optionen": [{"text": "Die Abmahnung beendet die Ausbildung sofort.", "richtig": false, "begruendung": "Die Abmahnung warnt nur; beendet wird erst durch Kündigung (AB Abmahnung Nr. 1)."}, {"text": "Die Abmahnung muss vom Betriebsrat genehmigt werden.", "richtig": false, "begruendung": "Der Betriebsrat hat bei der Abmahnung nicht mitzubestimmen (AB Abmahnung Nr. 1)."}, {"text": "Die Abmahnung muss mündlich ausgesprochen werden.", "richtig": false, "begruendung": "Aus Beweisgründen ist die Schriftform zu wählen (AB Abmahnung Nr. 3)."}, {"text": "Die Abmahnung droht Folgen bei Wiederholung an.", "richtig": true, "begruendung": "AB Abmahnung Nr. 1: Der Ermahnung fehlt die Androhung von Rechtsfolgen."}, {"text": "Die Abmahnung muss binnen zwei Wochen erfolgen.", "richtig": false, "begruendung": "Es gibt keine Frist für eine Abmahnung (AB Abmahnung Nr. 6)."}]}, {"id": 61, "format": "sc", "thema": "Abmahnung", "afb": "I", "stamm": "Wie viele Abmahnungen braucht ein Betrieb in der Regel, bevor er einer Auszubildenden wegen gleichartigen Fehlverhaltens kündigen kann?", "fundstelle": "AB Abmahnung 2026, Nr. 10; Aktualisierung 2026, Merke Abmahnung", "optionen": [{"text": "bei Azubis keine, sie ist nicht vorgesehen", "richtig": false, "begruendung": "Bei steuerbarem Fehlverhalten ist in der Regel eine Abmahnung nötig (AB Abmahnung Nr. 2)."}, {"text": "in der Regel eine einschlägige Abmahnung", "richtig": true, "begruendung": "AB Abmahnung Nr. 10: Grundsätzlich reicht eine Abmahnung wegen gleichartigen Fehlverhaltens."}, {"text": "vorher eine Abmahnung durch die IHK", "richtig": false, "begruendung": "Abmahnen darf, wer kündigungsberechtigt ist, nicht die IHK (AB Abmahnung Nr. 4)."}, {"text": "bei Azubis gesetzlich drei Abmahnungen", "richtig": false, "begruendung": "Die „drei Abmahnungen“ sind ein Mythos (AB Abmahnung Nr. 10)."}, {"text": "bei Azubis gesetzlich zwei Abmahnungen", "richtig": false, "begruendung": "Das Gesetz schreibt keine Anzahl vor (AB Abmahnung Nr. 10)."}]}, {"id": 62, "format": "sc", "thema": "Abmahnung", "afb": "II", "stamm": "Ein Betrieb schreibt seinem Azubi: „Am 3. Mai sind Sie unentschuldigt nicht zur Arbeit erschienen. Wir fordern Sie auf, künftig Ihre Pflichten zu erfüllen.“ Mehr steht nicht im Schreiben. Was fehlt, damit es als Abmahnung taugt?", "fundstelle": "Fake-Abmahnung (Wiemers); 5.3 Lösung Abmahnung 2026; AB Abmahnung 2026, Nr. 7", "optionen": [{"text": "die Androhung der Kündigung bei Wiederholung", "richtig": true, "begruendung": "Fehlt die Androhung, ist es nur eine Ermahnung (AB Abmahnung Nr. 7; Beispiel Wiemers)."}, {"text": "die Angabe einer Frist von vier Wochen", "richtig": false, "begruendung": "Eine Abmahnung braucht keine Frist (AB Abmahnung Nr. 6)."}, {"text": "die Unterschrift eines Betriebsratsmitglieds", "richtig": false, "begruendung": "Der Betriebsrat ist an der Abmahnung nicht beteiligt (AB Abmahnung Nr. 1)."}, {"text": "die Genehmigung der Industrie- und Handelskammer", "richtig": false, "begruendung": "Eine Genehmigung der IHK ist nicht vorgesehen (AB Abmahnung Nr. 4)."}, {"text": "die Zustimmung der Eltern des Azubis", "richtig": false, "begruendung": "Die Eltern müssen einer Abmahnung nicht zustimmen (AB Abmahnung Nr. 4 und 7)."}]}, {"id": 63, "format": "sc", "thema": "Abmahnung", "afb": "II", "stamm": "Der Auszubildende Tim wurde wegen Zuspätkommens abgemahnt. Welcher erneute Verstoß ist so gleichartig, dass er eine Kündigung begründen kann?", "fundstelle": "AB Abmahnung 2026, Nr. 9", "optionen": [{"text": "Er vergisst, sein Berichtsheft vorzulegen.", "richtig": false, "begruendung": "Das Berichtsheft hat mit Unpünktlichkeit nichts zu tun (AB Abmahnung Nr. 9)."}, {"text": "Er telefoniert privat während der Arbeitszeit.", "richtig": false, "begruendung": "Private Handynutzung ist ein anderer Verstoß als Unpünktlichkeit (AB Abmahnung Nr. 9)."}, {"text": "Er trägt keine vorgeschriebene Schutzkleidung.", "richtig": false, "begruendung": "Ein Sicherheitsverstoß ist kein gleichartiger Unpünktlichkeitsfall (AB Abmahnung Nr. 9)."}, {"text": "Er meldet sich bei Krankheit zu spät im Betrieb.", "richtig": false, "begruendung": "AB Abmahnung Nr. 9: Zuspätkommen und verspätete Krankmeldung sind nicht vergleichbar."}, {"text": "Er überzieht mehrmals seine Mittagspause.", "richtig": true, "begruendung": "Pausen überziehen ist wie Zuspätkommen ein Fall von Unpünktlichkeit (AB Abmahnung Nr. 9)."}]}, {"id": 64, "format": "sc", "thema": "Abmahnung", "afb": "II", "stamm": "Der Auszubildende Kevin wird nach der Probezeit dabei erwischt, wie er Ware aus dem Lager stiehlt. Muss der Betrieb ihn vor einer Kündigung abmahnen?", "fundstelle": "AB Abmahnung 2026, Nr. 2; Skript M5 (Tabelle); 6.2 Vertiefung (Lösung 2026), Fall Grit", "optionen": [{"text": "ja, Azubis müssen vorher abgemahnt werden", "richtig": false, "begruendung": "Bei schweren Vertrauensbrüchen entfällt die Abmahnung (M5; AB Abmahnung Nr. 2)."}, {"text": "nein, Azubis sind nach der Probezeit unkündbar", "richtig": false, "begruendung": "Nach der Probezeit ist eine Kündigung aus wichtigem Grund möglich (§ 22 Abs. 2 Nr. 1)."}, {"text": "nein, bei Diebstahl ist keine Abmahnung nötig", "richtig": true, "begruendung": "Bei besonders schweren Verstößen wie Diebstahl ist keine Abmahnung nötig (AB Abmahnung Nr. 2)."}, {"text": "ja, außer der Azubi ist schon volljährig", "richtig": false, "begruendung": "Das Alter entscheidet nicht über die Abmahnung (AB Abmahnung Nr. 2)."}, {"text": "ja, bei Azubis vorher drei Abmahnungen", "richtig": false, "begruendung": "Eine Regel „drei Abmahnungen“ gibt es nicht (AB Abmahnung Nr. 10)."}]}, {"id": 65, "format": "sc", "thema": "Abmahnung", "afb": "I", "stamm": "Die Auszubildende Lena hält eine Abmahnung für inhaltlich falsch. Was kann sie tun?", "fundstelle": "AB Abmahnung 2026, Nr. 13; 5.3 Lösung Abmahnung 2026", "optionen": [{"text": "die Ausbildung deshalb sofort fristlos kündigen", "richtig": false, "begruendung": "Eine Abmahnung ist kein wichtiger Grund für eine Kündigung durch den Azubi (M5)."}, {"text": "die Abmahnung binnen zwei Wochen bei der IHK anfechten", "richtig": false, "begruendung": "Eine Anfechtung bei der IHK ist nicht vorgesehen; es gibt keine Frist (5.3 Lösung)."}, {"text": "den Betriebsrat die Abmahnung zurücknehmen lassen", "richtig": false, "begruendung": "Der Betriebsrat bestimmt bei Abmahnungen nicht mit (AB Abmahnung Nr. 1)."}, {"text": "eine Gegendarstellung zur Personalakte verlangen", "richtig": true, "begruendung": "AB Abmahnung Nr. 13: Der Arbeitnehmer kann eine Gegendarstellung in der Personalakte verlangen."}, {"text": "nichts, Azubis müssen Abmahnungen hinnehmen", "richtig": false, "begruendung": "Sie kann Gegendarstellung oder Entfernung verlangen (AB Abmahnung Nr. 13)."}]}, {"id": 66, "format": "kprim", "thema": "Abmahnung", "afb": "I", "stamm": "Beurteilen Sie, ob die folgenden Bestandteile in einer Abmahnung unbedingt enthalten sein müssen.", "fundstelle": "AB Abmahnung 2026, Nr. 7; 5.3 Lösung Abmahnung 2026", "optionen": [{"text": "eine genaue Beschreibung des Fehlverhaltens nach Zeit, Ort und Art", "richtig": true, "begruendung": "AB Abmahnung Nr. 7, erster Pflichtbestandteil."}, {"text": "die Aufforderung, künftig die Pflichten aus dem Vertrag zu erfüllen", "richtig": true, "begruendung": "AB Abmahnung Nr. 7, zweiter Pflichtbestandteil."}, {"text": "die Androhung von Folgen bis zur Kündigung im Wiederholungsfall", "richtig": true, "begruendung": "AB Abmahnung Nr. 7, dritter Pflichtbestandteil."}, {"text": "die schriftliche Zustimmung des Betriebsrats", "richtig": false, "begruendung": "Der Betriebsrat hat bei der Abmahnung nicht mitzubestimmen (AB Abmahnung Nr. 1)."}]}, {"id": 67, "format": "kprim", "thema": "Abmahnung", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zur Abmahnung zutreffen.", "fundstelle": "AB Abmahnung 2026, Nr. 4, 6, 8 und 11", "optionen": [{"text": "Für eine Abmahnung gibt es keine gesetzliche Frist.", "richtig": true, "begruendung": "AB Abmahnung Nr. 6: Es gibt keine Frist, sie sollte aber unverzüglich erfolgen."}, {"text": "Abmahnen darf auch ein Kollege, der das Fehlverhalten beobachtet hat.", "richtig": false, "begruendung": "Abmahnen darf nur, wer kündigungs- oder weisungsberechtigt ist (AB Abmahnung Nr. 4)."}, {"text": "Eine Abmahnung wirkt zeitlich unbegrenzt.", "richtig": false, "begruendung": "Sie verliert je nach Schwere und Einzelfall ihre Wirkung (AB Abmahnung Nr. 8)."}, {"text": "Nach einer Abmahnung kann wegen desselben Verhaltens allein nicht mehr gekündigt werden.", "richtig": true, "begruendung": "AB Abmahnung Nr. 11: Wer abgemahnt hat, kann wegen dieses Fehlverhaltens allein nicht kündigen."}]}, {"id": 68, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "I", "stamm": "Für wen gilt das Jugendarbeitsschutzgesetz?", "fundstelle": "Infoblatt JArbSchG (§ 1); Skript M7, Aussage 10 mit Lösung", "optionen": [{"text": "für alle Azubis unabhängig von ihrem Alter", "richtig": false, "begruendung": "Es gilt nur für Personen unter 18 (Infoblatt JArbSchG)."}, {"text": "für Beschäftigte zwischen 15 und 21 Jahren", "richtig": false, "begruendung": "Die Grenze liegt bei 18 Jahren (Infoblatt JArbSchG)."}, {"text": "für Beschäftigte unter 25 Jahren", "richtig": false, "begruendung": "Die Grenze liegt bei 18 Jahren (Infoblatt JArbSchG)."}, {"text": "für Azubis im ersten Ausbildungsjahr", "richtig": false, "begruendung": "Maßgeblich ist das Alter, nicht das Ausbildungsjahr (Infoblatt JArbSchG)."}, {"text": "für Beschäftigte unter 18 Jahren", "richtig": true, "begruendung": "Infoblatt JArbSchG: Es gilt für Personen unter 18 Jahren (§ 1 JArbSchG)."}]}, {"id": 69, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "I", "stamm": "Wie lange muss die ununterbrochene Freizeit zwischen zwei Arbeitstagen für Jugendliche mindestens sein?", "fundstelle": "Infoblatt JArbSchG (Ruhezeiten); Skript M7, Aussage 5 mit Lösung", "optionen": [{"text": "8 Stunden", "richtig": false, "begruendung": "Zu kurz; für Jugendliche gelten mindestens 12 Stunden (Infoblatt JArbSchG)."}, {"text": "10 Stunden", "richtig": false, "begruendung": "So stand es falsch in M7 (Aussage 5); richtig sind 12 Stunden."}, {"text": "11 Stunden", "richtig": false, "begruendung": "11 Stunden gelten für Volljährige nach dem Arbeitszeitgesetz (AB ArbZG/BUrlG)."}, {"text": "12 Stunden", "richtig": true, "begruendung": "Infoblatt JArbSchG: Die Freizeit zwischen zwei Arbeitstagen muss mindestens 12 Stunden betragen."}, {"text": "14 Stunden", "richtig": false, "begruendung": "Das Gesetz verlangt 12 Stunden (Infoblatt JArbSchG)."}]}, {"id": 70, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Die 17-jährige Auszubildende Nele arbeitet an einem Tag 7 Stunden. Wie lange müssen ihre Ruhepausen insgesamt mindestens sein?", "fundstelle": "Infoblatt JArbSchG (Pausenzeiten, § 11); IB Berufsschule (Pausen)", "optionen": [{"text": "15 Minuten", "richtig": false, "begruendung": "15 Minuten ist die Mindestlänge einer einzelnen Pause, nicht die Gesamtpause (Infoblatt)."}, {"text": "30 Minuten", "richtig": false, "begruendung": "30 Minuten gelten bei mehr als 4,5 bis 6 Stunden (Infoblatt JArbSchG)."}, {"text": "45 Minuten", "richtig": false, "begruendung": "45 Minuten gelten für Volljährige ab 9 Stunden (AB ArbZG/BUrlG)."}, {"text": "60 Minuten", "richtig": true, "begruendung": "Bei mehr als 6 Stunden Arbeitszeit mindestens 60 Minuten (Infoblatt JArbSchG, § 11)."}, {"text": "90 Minuten", "richtig": false, "begruendung": "Das Gesetz verlangt 60 Minuten (Infoblatt JArbSchG)."}]}, {"id": 71, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Der 16-jährige Auszubildende Ole beginnt um 8:00 Uhr. Sein Betrieb legt seine erste Pause auf 8:30 Uhr. Wie ist das zu beurteilen?", "fundstelle": "Infoblatt JArbSchG (Pausenzeiten, § 11); Skript M7, Aufg. 4 mit Lösung", "optionen": [{"text": "zulässig, weil die Lage der Pausen frei wählbar ist", "richtig": false, "begruendung": "Die Lage ist vorgeschrieben: frühestens 1 Std. nach Beginn (Infoblatt JArbSchG)."}, {"text": "unzulässig, die Pause darf frühestens um 9 Uhr liegen", "richtig": true, "begruendung": "Pausen frühestens eine Stunde nach Beginn der Arbeitszeit (Infoblatt JArbSchG, § 11)."}, {"text": "unzulässig, weil Pausen erst nach 4,5 Stunden kommen", "richtig": false, "begruendung": "4,5 Stunden ist die Höchstzeit ohne Pause, nicht der frühste Zeitpunkt (Infoblatt)."}, {"text": "unzulässig, weil die Pause mittags liegen muss", "richtig": false, "begruendung": "Pausen können aufgeteilt werden, je mindestens 15 Minuten (Infoblatt JArbSchG)."}, {"text": "zulässig, wenn die Pause mindestens 15 Minuten dauert", "richtig": false, "begruendung": "Die Mindestdauer stimmt, aber die Pause liegt zu früh (Infoblatt JArbSchG)."}]}, {"id": 72, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Der 16-jährige Auszubildende Finn arbeitet in einem Modegeschäft. Er soll an einem langen Einkaufsabend bis 21:30 Uhr arbeiten. Wie ist das zu beurteilen?", "fundstelle": "Infoblatt JArbSchG (Keine Nachtarbeit, § 14)", "optionen": [{"text": "unzulässig, er darf nur bis 20 Uhr beschäftigt werden", "richtig": true, "begruendung": "Jugendliche dürfen nur zwischen 6 und 20 Uhr beschäftigt werden (Infoblatt JArbSchG, § 14)."}, {"text": "zulässig, weil der Einzelhandel eine Ausnahmebranche ist", "richtig": false, "begruendung": "Ausnahmen gelten u. a. für Bäckereien und Gastgewerbe, nicht für den Einzelhandel (Infoblatt)."}, {"text": "zulässig, wenn er am nächsten Tag später anfangen darf", "richtig": false, "begruendung": "Ein späterer Beginn hebt die Grenze 20 Uhr nicht auf (Infoblatt JArbSchG)."}, {"text": "unzulässig, er darf nur bis 18 Uhr beschäftigt werden", "richtig": false, "begruendung": "Die Grenze liegt bei 20 Uhr, nicht 18 Uhr (Infoblatt JArbSchG)."}, {"text": "zulässig, weil er bereits 16 Jahre alt geworden ist", "richtig": false, "begruendung": "Das Verbot gilt für alle unter 18; die Ausnahmen betreffen bestimmte Branchen (Infoblatt)."}]}, {"id": 73, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Die 17-jährige Lara soll in dieser Woche an fünf Tagen jeweils 8,5 Stunden arbeiten. Wie ist das zu beurteilen?", "fundstelle": "Infoblatt JArbSchG (Arbeitsdauer, § 8); IHK-Rechenaufgaben, Aufg. 7a", "optionen": [{"text": "zulässig, wenn sie die Mehrarbeit bezahlt bekommt", "richtig": false, "begruendung": "Mehrarbeit über 8/40 Std. ist für Jugendliche auch gegen Geld verboten (IHK-Rechenaufg. 5d)."}, {"text": "unzulässig, sie darf höchstens 7 Stunden täglich arbeiten", "richtig": false, "begruendung": "Die Höchstgrenze liegt bei 8 Stunden täglich (Infoblatt JArbSchG)."}, {"text": "unzulässig, mehr als 40 Wochenstunden sind verboten", "richtig": true, "begruendung": "5 × 8,5 = 42,5 Std.; erlaubt sind max. 40 Std. pro Woche (Infoblatt JArbSchG, § 8)."}, {"text": "zulässig, weil 8,5 Stunden täglich erlaubt sind", "richtig": false, "begruendung": "8,5 Std. nur, wenn an anderen Tagen derselben Woche verkürzt wird (Infoblatt JArbSchG)."}, {"text": "zulässig, weil Jugendliche bis 48 Stunden arbeiten dürfen", "richtig": false, "begruendung": "48 Std. gelten für Volljährige (ArbZG); Jugendliche max. 40 Std. (Infoblatt)."}]}, {"id": 74, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Die 16-jährige Merve arbeitet in einer Branche, in der Samstagsarbeit für Jugendliche erlaubt ist. Was muss ihr Betrieb beachten?", "fundstelle": "Infoblatt JArbSchG (Wochenendarbeit, § 16)", "optionen": [{"text": "Sie darf dann insgesamt sechs Tage pro Woche arbeiten.", "richtig": false, "begruendung": "Die 5-Tage-Woche bleibt auch bei Samstagsarbeit bestehen (Infoblatt JArbSchG)."}, {"text": "Mindestens ein Samstag im Quartal muss frei bleiben.", "richtig": false, "begruendung": "Es sind zwei Samstage im Monat (Infoblatt JArbSchG)."}, {"text": "Pro Samstag gibt es zwei zusätzliche Urlaubstage.", "richtig": false, "begruendung": "Einen solchen Urlaubsanspruch nennt das Material nicht; Ausgleich über die 5-Tage-Woche."}, {"text": "Samstags darf sie höchstens vier Stunden arbeiten.", "richtig": false, "begruendung": "Eine Grenze von vier Stunden am Samstag nennt das Material nicht (Infoblatt JArbSchG)."}, {"text": "Mindestens zwei Samstage im Monat sollen frei bleiben.", "richtig": true, "begruendung": "Infoblatt JArbSchG: Bei Samstagsarbeit bleiben zwei Samstage im Monat arbeitsfrei; 5-Tage-Woche bleibt."}]}, {"id": 75, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Ayla wird am 10. Februar 17 Jahre alt. Wie viele Werktage Urlaub stehen ihr in diesem Kalenderjahr mindestens zu?", "fundstelle": "AB Vertrag (Tabelle Urlaub nach Alter); Schaubild 2026/27, Kasten 6", "optionen": [{"text": "20 Werktage", "richtig": false, "begruendung": "20 sind Arbeitstage bei 5-Tage-Woche für Erwachsene, keine Werktage (Schaubild)."}, {"text": "24 Werktage", "richtig": false, "begruendung": "24 Werktage gelten ab 18 Jahren (BUrlG, AB Vertrag Tabelle)."}, {"text": "25 Werktage", "richtig": false, "begruendung": "25 gelten, wenn man zu Jahresbeginn noch nicht 18 ist; Ayla war noch nicht 17."}, {"text": "27 Werktage", "richtig": true, "begruendung": "Am 1. Januar war Ayla 16, also noch nicht 17: mindestens 27 Werktage (AB Vertrag Tabelle)."}, {"text": "30 Werktage", "richtig": false, "begruendung": "30 gelten nur, wenn man zu Jahresbeginn noch nicht 16 ist (AB Vertrag Tabelle)."}]}, {"id": 76, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Ein volljähriger Auszubildender arbeitet in einer 5-Tage-Woche. Wie viele Arbeitstage Urlaub hat er nach dem Bundesurlaubsgesetz mindestens?", "fundstelle": "AB ArbZG/BUrlG (Anspruch auf Urlaub); Schaubild 2026/27, Kasten 6", "optionen": [{"text": "18 Arbeitstage", "richtig": false, "begruendung": "Der Mindestanspruch liegt bei 24 Werktagen = 20 Arbeitstagen (AB ArbZG/BUrlG)."}, {"text": "20 Arbeitstage", "richtig": true, "begruendung": "24 Werktage bei 6-Tage-Woche entsprechen 20 Arbeitstagen bei 5-Tage-Woche (AB ArbZG/BUrlG)."}, {"text": "24 Arbeitstage", "richtig": false, "begruendung": "24 sind Werktage (6-Tage-Woche), nicht Arbeitstage (AB ArbZG/BUrlG)."}, {"text": "25 Arbeitstage", "richtig": false, "begruendung": "25 Werktage gelten für 17-Jährige (JArbSchG), nicht für Volljährige."}, {"text": "30 Arbeitstage", "richtig": false, "begruendung": "Mehr Urlaub ist möglich, gesetzlich vorgeschrieben sind 20 Arbeitstage (AB ArbZG/BUrlG)."}]}, {"id": 77, "format": "sc", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "I", "stamm": "In welche Zeit soll der Urlaub von Berufsschülern unter 18 Jahren gelegt werden?", "fundstelle": "IHK-Rechenaufgaben, Aufg. 2d", "optionen": [{"text": "in die Zeit von Blockunterricht", "richtig": false, "begruendung": "Urlaub ist Erholung von der Arbeit; er soll in die Schulferien fallen (IHK-Rechenaufg. 2d)."}, {"text": "in die Monate Juni bis August", "richtig": false, "begruendung": "Maßgeblich sind die Berufsschulferien, nicht feste Monate (IHK-Rechenaufg. 2d)."}, {"text": "in die Zeit der Berufsschulferien", "richtig": true, "begruendung": "§ 19 Abs. 3 JArbSchG: Der Urlaub soll in die Berufsschulferien gelegt werden (IHK-Rechenaufg. 2d)."}, {"text": "in die ersten sechs Ausbildungsmonate", "richtig": false, "begruendung": "Das Material nennt die Berufsschulferien, nicht die ersten Monate (IHK-Rechenaufg. 2d)."}, {"text": "in die Wochen nach der Zwischenprüfung", "richtig": false, "begruendung": "Das Material nennt die Berufsschulferien (IHK-Rechenaufg. 2d)."}]}, {"id": 78, "format": "kprim", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "II", "stamm": "Die 16-jährige Jule macht eine Ausbildung zur Kauffrau für Büromanagement. Beurteilen Sie, ob die Regelungen in ihrem Dienstplan zulässig sind.", "fundstelle": "Infoblatt JArbSchG (§§ 8, 11, 12/13, 14, 17)", "optionen": [{"text": "Montag bis Freitag jeweils 8 Stunden Arbeit", "richtig": true, "begruendung": "Max. 8 Std. täglich und 40 Std. wöchentlich an 5 Tagen (Infoblatt JArbSchG)."}, {"text": "Arbeitsende 19:30 Uhr und Arbeitsbeginn am nächsten Tag 6:30 Uhr", "richtig": false, "begruendung": "Nur 11 Stunden Freizeit; nötig sind mindestens 12 Stunden (Infoblatt JArbSchG)."}, {"text": "insgesamt 60 Minuten Pause bei 8 Stunden Arbeitszeit", "richtig": true, "begruendung": "Mehr als 6 Std.: mindestens 60 Minuten Pause (Infoblatt JArbSchG, § 11)."}, {"text": "Arbeit an einem Sonntag im Monat im Büro", "richtig": false, "begruendung": "Sonntagsarbeit nur in bestimmten Branchen; ein Büro gehört nicht dazu (Infoblatt JArbSchG)."}]}, {"id": 79, "format": "kprim", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zum Jugendarbeitsschutz zutreffen.", "fundstelle": "Infoblatt JArbSchG (§§ 15–18)", "optionen": [{"text": "Jugendliche dürfen höchstens an fünf Tagen pro Woche beschäftigt werden.", "richtig": true, "begruendung": "5-Tage-Woche (Infoblatt JArbSchG, § 15)."}, {"text": "Die zwei freien Tage pro Woche sollen möglichst hintereinander liegen.", "richtig": true, "begruendung": "Infoblatt JArbSchG, § 15."}, {"text": "Der 1. Mai bleibt für Jugendliche in jeder Branche arbeitsfrei.", "richtig": true, "begruendung": "Nach § 18 Abs. 2 JArbSchG immer frei: 25.12., 1.1., erster Osterfeiertag und 1.5. (Infoblatt JArbSchG)."}, {"text": "Bei Sonntagsarbeit muss mindestens ein Sonntag im Monat frei bleiben.", "richtig": false, "begruendung": "Mindestens zwei Sonntage im Monat bleiben frei (Infoblatt JArbSchG, § 17)."}]}, {"id": 80, "format": "kprim", "thema": "Jugendarbeitsschutz und Urlaub", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zum Urlaub zutreffen.", "fundstelle": "AB Vertrag (Tabelle Urlaub, Linus); AB ArbZG/BUrlG (Urlaubsanspruch)", "optionen": [{"text": "Für den Jugendurlaub ist das Alter zu Beginn des Kalenderjahres maßgeblich.", "richtig": true, "begruendung": "AB Vertrag, Tabelle: Alter zu Beginn des Kalenderjahres."}, {"text": "Werktage sind alle Kalendertage außer Sonn- und gesetzlichen Feiertagen.", "richtig": true, "begruendung": "AB ArbZG/BUrlG: Werktage sind alle Tage, die keine Sonn- oder Feiertage sind."}, {"text": "Volljährige haben nach dem BUrlG mindestens 24 Werktage Urlaub.", "richtig": true, "begruendung": "§ 3 BUrlG: mindestens 24 Werktage (AB ArbZG/BUrlG)."}, {"text": "Im Vertrag darf weniger Urlaub als gesetzlich vorgeschrieben vereinbart werden.", "richtig": false, "begruendung": "Weniger als der gesetzliche Urlaub darf nicht vereinbart werden (AB ArbZG/BUrlG; AB Vertrag Linus)."}]}, {"id": 81, "format": "sc", "thema": "Arbeitszeit für Volljährige", "afb": "II", "stamm": "Der 19-jährige Auszubildende Leon arbeitet an einem Tag 9,5 Stunden. Wie lange müssen seine Ruhepausen insgesamt mindestens sein?", "fundstelle": "AB ArbZG/BUrlG (§ 4 Ruhepausen)", "optionen": [{"text": "15 Minuten", "richtig": false, "begruendung": "15 Minuten ist die Mindestlänge eines Pausenabschnitts (AB ArbZG/BUrlG, § 4)."}, {"text": "30 Minuten", "richtig": false, "begruendung": "30 Minuten gelten bei 6 bis 9 Stunden (AB ArbZG/BUrlG, § 4)."}, {"text": "45 Minuten", "richtig": true, "begruendung": "Bei mehr als 9 Stunden mindestens 45 Minuten (AB ArbZG/BUrlG, § 4)."}, {"text": "60 Minuten", "richtig": false, "begruendung": "60 Minuten gelten für Jugendliche ab 6 Std. (JArbSchG), Leon ist volljährig."}, {"text": "90 Minuten", "richtig": false, "begruendung": "Das ArbZG verlangt 45 Minuten (AB ArbZG/BUrlG, § 4)."}]}, {"id": 82, "format": "sc", "thema": "Arbeitszeit für Volljährige", "afb": "I", "stamm": "Wie lange muss die ununterbrochene Ruhezeit zwischen zwei Arbeitstagen für eine volljährige Bürokauffrau mindestens sein?", "fundstelle": "AB ArbZG/BUrlG (§ 5 Ruhezeiten)", "optionen": [{"text": "8 Stunden", "richtig": false, "begruendung": "Zu kurz; das ArbZG verlangt mindestens 11 Stunden (AB ArbZG/BUrlG, § 5)."}, {"text": "9 Stunden", "richtig": false, "begruendung": "Zu kurz; das ArbZG verlangt mindestens 11 Stunden (AB ArbZG/BUrlG, § 5)."}, {"text": "10 Stunden", "richtig": false, "begruendung": "10 Stunden nur mit Ausgleich bzw. im Gastgewerbe (AB ArbZG/BUrlG, § 5)."}, {"text": "11 Stunden", "richtig": true, "begruendung": "§ 5 ArbZG: mindestens 11 Stunden ununterbrochen (AB ArbZG/BUrlG)."}, {"text": "12 Stunden", "richtig": false, "begruendung": "12 Stunden gelten für Jugendliche (JArbSchG)."}]}, {"id": 83, "format": "kprim", "thema": "Arbeitszeit für Volljährige", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zum Arbeitszeitgesetz für volljährige Auszubildende zutreffen.", "fundstelle": "AB ArbZG/BUrlG (§§ 3, 4, 5, 6)", "optionen": [{"text": "Die tägliche Arbeitszeit kann auf 10 Stunden steigen, wenn im Durchschnitt 8 Stunden eingehalten werden.", "richtig": true, "begruendung": "§ 3 ArbZG: Verlängerung auf 10 Std. bei 8 Std. im Durchschnitt (AB ArbZG/BUrlG)."}, {"text": "Volljährige dürfen höchstens 6 Stunden ohne Ruhepause arbeiten.", "richtig": true, "begruendung": "§ 4 ArbZG: maximal 6 Arbeitsstunden ohne Pause (AB ArbZG/BUrlG)."}, {"text": "Die Ruhezeit zwischen zwei Arbeitstagen beträgt mindestens 12 Stunden.", "richtig": false, "begruendung": "Für Volljährige 11 Stunden; 12 Stunden gelten für Jugendliche (AB ArbZG/BUrlG, § 5)."}, {"text": "Nachtarbeit ist im Arbeitszeitgesetz die Zeit von 20 Uhr bis 6 Uhr.", "richtig": false, "begruendung": "Nachtarbeit ist 23 bis 6 Uhr; 20 Uhr ist die Grenze für Jugendliche (AB ArbZG/BUrlG, § 6)."}]}, {"id": 84, "format": "sc", "thema": "Zeugnis und Prüfung", "afb": "I", "stamm": "Was muss ein einfaches Ausbildungszeugnis enthalten, wenn der Azubi nichts weiter verlangt?", "fundstelle": "Zusammenfassung BBiG, § 16; Skript M8 (§ 16)", "optionen": [{"text": "die Noten der Berufsschule und der Abschlussprüfung", "richtig": false, "begruendung": "Berufsschul- und IHK-Zeugnis sind eigene Zeugnisse (M8, § 16)."}, {"text": "eine Empfehlung für einen zukünftigen Arbeitgeber", "richtig": false, "begruendung": "Eine Empfehlung ist kein Pflichtinhalt (§ 16 BBiG)."}, {"text": "Angaben über Verhalten und Leistung während der Ausbildung", "richtig": false, "begruendung": "Verhalten und Leistung nur auf Verlangen des Azubis (qualifiziertes Zeugnis, § 16)."}, {"text": "Art, Dauer und Ziel der Ausbildung, erworbene Fähigkeiten", "richtig": true, "begruendung": "§ 16 BBiG: einfaches Zeugnis über Art, Dauer, Ziel und erworbene Fertigkeiten (Zusammenfassung BBiG)."}, {"text": "die Zahl der Krankheitstage während der Ausbildung", "richtig": false, "begruendung": "Krankheitstage gehören nicht zum Inhalt des Zeugnisses (§ 16 BBiG)."}]}, {"id": 85, "format": "sc", "thema": "Zeugnis und Prüfung", "afb": "II", "stamm": "Der Betrieb will Ninas Ausbildungszeugnis nur als PDF ausstellen. Wie ist das zu beurteilen?", "fundstelle": "Aktualisierung 2026 (M8, § 16); Zusammenfassung BBiG, § 16", "optionen": [{"text": "zulässig, wenn Nina darin einwilligt", "richtig": true, "begruendung": "Seit 1.8.2024 darf das Zeugnis mit Einwilligung elektronisch ausgestellt werden (Aktualisierung 2026)."}, {"text": "unzulässig, es muss handschriftlich sein", "richtig": false, "begruendung": "So stand es im alten Skript; seit 2024 ist mit Einwilligung die elektronische Form erlaubt."}, {"text": "zulässig, sofern Nina volljährig ist", "richtig": false, "begruendung": "Eine Altersgrenze nennt das Material nicht; nötig ist die Einwilligung (§ 16)."}, {"text": "zulässig, ohne dass Nina zustimmen muss", "richtig": false, "begruendung": "Die elektronische Form braucht die Einwilligung des Azubis (§ 16 Abs. 1 S. 2)."}, {"text": "zulässig, wenn die IHK dem zustimmt", "richtig": false, "begruendung": "Nicht die IHK, sondern Nina muss einwilligen (Aktualisierung 2026)."}]}, {"id": 86, "format": "sc", "thema": "Zeugnis und Prüfung", "afb": "I", "stamm": "Wie oft darf eine nicht bestandene Abschlussprüfung wiederholt werden?", "fundstelle": "Zusammenfassung BBiG, §§ 37–50; AB BBiG, Nr. 14", "optionen": [{"text": "keinmal", "richtig": false, "begruendung": "Eine Wiederholung ist möglich, und zwar zweimal (§ 37 BBiG)."}, {"text": "einmal", "richtig": false, "begruendung": "Die Prüfung kann zweimal wiederholt werden (§ 37 BBiG, Zusammenfassung BBiG)."}, {"text": "zweimal", "richtig": true, "begruendung": "§ 37 BBiG: Eine nicht bestandene Abschlussprüfung kann zweimal wiederholt werden."}, {"text": "dreimal", "richtig": false, "begruendung": "Die Prüfung kann zweimal wiederholt werden (§ 37 BBiG)."}, {"text": "beliebig oft", "richtig": false, "begruendung": "Die Zahl der Wiederholungen ist auf zwei begrenzt (§ 37 BBiG)."}]}, {"id": 87, "format": "kprim", "thema": "Zeugnis und Prüfung", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zu Zeugnis und Prüfung zutreffen.", "fundstelle": "Zusammenfassung BBiG, §§ 16 und 37–50; Skript M8 (§ 16)", "optionen": [{"text": "Auf Verlangen enthält das Ausbildungszeugnis auch Angaben zu Verhalten und Leistung.", "richtig": true, "begruendung": "Qualifiziertes Zeugnis auf Verlangen (§ 16 BBiG, Zusammenfassung BBiG)."}, {"text": "Zur Abschlussprüfung wird nur zugelassen, wer die Ausbildungsnachweise geführt hat.", "richtig": true, "begruendung": "§ 43 BBiG (Zusammenfassung BBiG)."}, {"text": "Das IHK-Zeugnis stellt der Ausbildungsbetrieb aus.", "richtig": false, "begruendung": "Das IHK-Zeugnis liegt nicht in der Verantwortung des Arbeitgebers; die IHK sendet es (M8, § 16)."}, {"text": "Bei guten Leistungen kann man vorzeitig zur Abschlussprüfung zugelassen werden.", "richtig": true, "begruendung": "§ 45 BBiG: vorzeitige Zulassung bei guten Leistungen (Zusammenfassung BBiG)."}]}, {"id": 88, "format": "sc", "thema": "Duales Studium", "afb": "I", "stamm": "Bei welchem dualen Studienmodell erwirbt man einen Bachelor und zusätzlich einen IHK-Abschluss?", "fundstelle": "Skript M9 (Studienmodelle)", "optionen": [{"text": "beim berufsintegrierenden Modell", "richtig": false, "begruendung": "M9: setzt eine abgeschlossene Ausbildung voraus, man erwirbt keinen zweiten IHK-Abschluss."}, {"text": "beim ausbildungsintegrierenden Modell", "richtig": true, "begruendung": "M9: Studium mit Bachelor und Ausbildung mit IHK-Abschluss kombiniert."}, {"text": "beim ausbildungsbegleitenden Modell", "richtig": false, "begruendung": "Dieses Modell nennt M9 nicht; gemeint ist das ausbildungsintegrierende."}, {"text": "beim berufsbegleitenden Modell", "richtig": false, "begruendung": "M9: Studium neben einer Vollzeitstelle, ohne Ausbildung."}, {"text": "beim praxisintegrierenden Studienmodell", "richtig": false, "begruendung": "M9: keine Berufsausbildung, nur Studienabschluss."}]}, {"id": 89, "format": "sc", "thema": "Duales Studium", "afb": "I", "stamm": "Welche Zugangsvoraussetzung hat laut Skript der berufsintegrierende duale Studiengang?", "fundstelle": "Skript M9", "optionen": [{"text": "eine abgeschlossene Berufsausbildung", "richtig": true, "begruendung": "M9: Zugangsvoraussetzung ist eine abgeschlossene Berufsausbildung."}, {"text": "Berufserfahrung ohne formale Abschlüsse", "richtig": false, "begruendung": "Das gilt für das berufsbegleitende Modell (M9)."}, {"text": "ein Ausbildungsvertrag mit einem Betrieb", "richtig": false, "begruendung": "Ein Ausbildungsvertrag gehört zum ausbildungsintegrierenden Modell (M9)."}, {"text": "ein Praktikantenvertrag mit einer Firma", "richtig": false, "begruendung": "Praktikantenverträge nennt M9 beim praxisintegrierenden Modell."}, {"text": "das Abitur oder die Fachhochschulreife", "richtig": false, "begruendung": "Das gilt für das ausbildungs- und das praxisintegrierende Modell (M9)."}]}, {"id": 90, "format": "kprim", "thema": "Duales Studium", "afb": "I", "stamm": "Beurteilen Sie, ob die Aussagen zu den dualen Studienmodellen zutreffen.", "fundstelle": "Skript M9 (Studienmodelle)", "optionen": [{"text": "Beim praxisintegrierenden Modell erwirbt man keinen Berufsabschluss.", "richtig": true, "begruendung": "M9: keine Berufsausbildung, nur Studienabschluss."}, {"text": "Für das ausbildungsintegrierende Modell braucht man Abitur oder Fachhochschulreife.", "richtig": true, "begruendung": "M9: Zugangsvoraussetzung Abitur oder Fachhochschulreife."}, {"text": "Beim berufsbegleitenden Modell arbeitet man in Vollzeit.", "richtig": true, "begruendung": "M9: Arbeit in Vollzeit, Studium abends, am Wochenende oder im Urlaub."}, {"text": "Beim berufsintegrierenden Modell werden die Arbeitsstunden in Absprache mit dem Arbeitgeber reduziert.", "richtig": true, "begruendung": "M9: Arbeitsstunden werden in Absprache reduziert."}]}];
+</script>
+<script>
+(function(){
+  "use strict";
+  var STORE_KEY = "da-quiz-v1";
+  var LETTERS = ["A","B","C","D","E","F"];
+  var MODES = {
+    short: {sc:10, kp:5, min:45, title:"Kurztraining"},
+    exam:  {sc:20, kp:10, min:90, title:"Probeklausur"}
+  };
+
+  // ---------- Speicher (nur auf dem Gerät) ----------
+  function load(){
+    try { var s = window.localStorage.getItem(STORE_KEY); return s ? JSON.parse(s) : {}; }
+    catch(e){ return {}; }
+  }
+  function save(){
+    try { window.localStorage.setItem(STORE_KEY, JSON.stringify(progress)); } catch(e){}
+  }
+  var progress = load(); // id -> {n, ok}
+
+  function shuffle(arr){
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  // ---------- Zustand ----------
+  var mode = "practice";
+  var selectedTopics = [];
+  var queue = [], pos = 0;
+  var answers = [];      // je Position: {order, chosen} (SC) bzw. {order, marks:[true/false/null]} (Kprim)
+  var checked = [];      // Übungsmodus: Aufgabe schon ausgewertet?
+  var results = [];      // {q, a, pts, max}
+  var repeatOnly = false, timerId = null, endAt = 0, submitted = false;
+
+  var $ = function(id){ return document.getElementById(id); };
+  function el(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  var topics = [];
+  QUESTIONS.forEach(function(q){ if (topics.indexOf(q.thema) < 0) topics.push(q.thema); });
+  function isExam(){ return mode !== "practice"; }
+
+  function show(view){
+    ["viewStart","viewQuiz","viewResult"].forEach(function(v){ $(v).classList.toggle("hidden", v !== view); });
+    window.scrollTo(0,0);
+  }
+
+  // ---------- Startseite ----------
+  function renderChips(){
+    var box = $("chips"); box.innerHTML = "";
+    if (selectedTopics.length === topics.length) selectedTopics = [];
+    var all = el("button", "chip chip-all", "Alle Themen (" + QUESTIONS.length + ")");
+    all.type = "button";
+    all.setAttribute("aria-pressed", selectedTopics.length ? "false" : "true");
+    all.addEventListener("click", function(){ selectedTopics = []; renderChips(); renderStats(); });
+    box.appendChild(all);
+    topics.forEach(function(t){
+      var n = QUESTIONS.filter(function(q){ return q.thema === t; }).length;
+      var b = el("button", "chip", t + " (" + n + ")"); b.type = "button";
+      b.setAttribute("aria-pressed", selectedTopics.indexOf(t) >= 0 ? "true" : "false");
+      b.addEventListener("click", function(){
+        var i = selectedTopics.indexOf(t);
+        if (i >= 0) selectedTopics.splice(i,1); else selectedTopics.push(t);
+        renderChips(); renderStats();
+      });
+      box.appendChild(b);
+    });
+  }
+  function pool(){
+    return QUESTIONS.filter(function(q){ return !selectedTopics.length || selectedTopics.indexOf(q.thema) >= 0; });
+  }
+  function wrongPool(){
+    return pool().filter(function(q){ var p = progress[q.id]; return p && p.ok === false; });
+  }
+  function renderStats(){
+    var all = QUESTIONS.length, seen = 0, right = 0, wrong = 0;
+    QUESTIONS.forEach(function(q){
+      var p = progress[q.id];
+      if (p){ seen++; if (p.ok) right++; else wrong++; }
+    });
+    $("stSeen").textContent = seen + "/" + all;
+    $("stRight").textContent = right;
+    $("stWrong").textContent = wrong;
+    $("stBar").style.width = Math.round(seen / all * 100) + "%";
+    $("stText").textContent = seen === 0
+      ? "Es gibt " + all + " Aufgaben. Neue Aufgaben kommen immer zuerst, danach die Wiederholungen."
+      : (seen < all ? "Noch " + (all - seen) + " Aufgaben hast du nicht gesehen. Sie kommen beim nächsten Start zuerst."
+                    : "Du hast alle Aufgaben gesehen. Jetzt kommen die Aufgaben zuerst, die du falsch beantwortet hast.");
+    var wp = wrongPool().length;
+    $("repeatBtn").disabled = wp === 0;
+    $("repeatBtn").textContent = wp ? "Falsch beantwortete wiederholen (" + wp + ")" : "Falsch beantwortete wiederholen";
+    $("repeatBtn").classList.toggle("hidden", isExam());
+  }
+  function setMode(m){
+    mode = m;
+    Array.prototype.forEach.call(document.querySelectorAll(".mode"), function(b){
+      b.setAttribute("aria-pressed", b.getAttribute("data-mode") === m ? "true" : "false");
+    });
+    $("topicCard").classList.toggle("hidden", isExam());
+    $("ruleCard").classList.toggle("hidden", !isExam());
+    $("startBtn").textContent = isExam() ? MODES[m].title + " starten (" + MODES[m].min + " Min.)" : "Los geht’s";
+    renderStats();
+  }
+
+  // Reihenfolge: zuerst nie gesehene, dann zuletzt falsche, dann der Rest (jeweils gemischt)
+  function buildQueue(list){
+    var unseen = [], wrong = [], rest = [];
+    list.forEach(function(q){
+      var p = progress[q.id];
+      if (!p) unseen.push(q); else if (p.ok === false) wrong.push(q); else rest.push(q);
+    });
+    return shuffle(unseen).concat(shuffle(wrong), shuffle(rest));
+  }
+
+  function start(onlyWrong){
+    repeatOnly = !!onlyWrong && !isExam();
+    if (isExam()){
+      var cfg = MODES[mode];
+      var sc = buildQueue(QUESTIONS.filter(function(q){ return q.format === "sc"; })).slice(0, cfg.sc);
+      var kp = buildQueue(QUESTIONS.filter(function(q){ return q.format === "kprim"; })).slice(0, cfg.kp);
+      queue = shuffle(sc).concat(shuffle(kp));
+    } else {
+      var list = repeatOnly ? wrongPool() : pool();
+      if (!list.length) return;
+      queue = repeatOnly ? shuffle(list) : buildQueue(list);
+    }
+    answers = queue.map(function(q){
+      var order = shuffle(q.optionen.map(function(_, i){ return i; }));
+      return q.format === "sc" ? {order:order, chosen:null} : {order:order, marks:[null,null,null,null]};
+    });
+    checked = queue.map(function(){ return false; });
+    results = []; pos = 0; submitted = false;
+    $("practiceActions").classList.toggle("hidden", isExam());
+    $("examActions").classList.toggle("hidden", !isExam());
+    stopTimer();
+    if (isExam()){
+      endAt = Date.now() + MODES[mode].min * 60000;
+      $("qTimer").classList.remove("hidden");
+      tick(); timerId = setInterval(tick, 1000);
+    } else {
+      $("qTimer").classList.add("hidden");
+    }
+    show("viewQuiz");
+    renderQuestion();
+  }
+
+  // ---------- Zeit ----------
+  function tick(){
+    var left = Math.max(0, Math.round((endAt - Date.now()) / 1000));
+    var m = Math.floor(left / 60), s = left % 60;
+    $("qTimer").textContent = "⏱ " + m + ":" + (s < 10 ? "0" : "") + s;
+    $("qTimer").classList.toggle("low", left <= 300);
+    if (left === 0 && !submitted) finish(true);
+  }
+  function stopTimer(){ if (timerId){ clearInterval(timerId); timerId = null; } }
+
+  // ---------- Punkte ----------
+  function score(q, a){
+    if (q.format === "sc"){
+      var ok = a.chosen !== null && q.optionen[a.chosen].richtig === true;
+      return {pts: ok ? 1 : 0, max: 1};
+    }
+    var n = 0;
+    q.optionen.forEach(function(o, i){ if (a.marks[i] === o.richtig) n++; });
+    return {pts: n === 4 ? 2 : (n === 3 ? 1 : 0), max: 2, n: n};
+  }
+  function isComplete(q, a){
+    return q.format === "sc" ? a.chosen !== null : a.marks.every(function(m){ return m !== null; });
+  }
+
+  // ---------- Aufgabe ----------
+  function renderQuestion(){
+    var q = queue[pos], a = answers[pos];
+    var total = queue.length;
+    $("qCount").textContent = "Aufgabe " + (pos + 1) + " von " + total;
+    $("qTopic").textContent = isExam() ? "" : q.thema;
+    $("qBar").style.width = Math.round(pos / total * 100) + "%";
+    $("qFmt").textContent = q.format === "sc" ? "Single Choice · 1 Punkt" : "Kprim · 2 Punkte";
+    $("qText").textContent = q.stamm;
+    $("qHint").textContent = q.format === "sc" ? "Kreuze die eine richtige Antwort an."
+      : "Entscheide bei jeder Aussage: richtig oder falsch.";
+    $("qVerdict").innerHTML = "";
+    $("qSource").classList.add("hidden");
+    var box = $("qBody"); box.innerHTML = "";
+    if (q.format === "sc") renderSC(q, a, box); else renderKprim(q, a, box);
+    if (isExam()){ renderExamNav(); }
+    else {
+      $("checkBtn").classList.toggle("hidden", q.format === "sc");
+      $("checkBtn").disabled = !isComplete(q, a);
+      $("nextBtn").textContent = pos + 1 < queue.length ? "Nächste Aufgabe" : "Fertig";
+      $("nextBtn").disabled = true;
+    }
+  }
+
+  function renderSC(q, a, box){
+    var wrap = el("div", "opts");
+    a.order.forEach(function(oi, k){
+      var o = q.optionen[oi];
+      var b = el("button", "opt"); b.type = "button";
+      b.innerHTML = '<span class="key"></span><span class="body"><span class="t"></span><span class="why"></span></span>';
+      b.querySelector(".key").textContent = LETTERS[k];
+      b.querySelector(".t").textContent = o.text;
+      b.querySelector(".why").textContent = o.begruendung;
+      if (a.chosen === oi) b.classList.add("sel");
+      b.addEventListener("click", function(){
+        if (!isExam() && checked[pos]) return;
+        a.chosen = oi;
+        Array.prototype.forEach.call(wrap.children, function(x){ x.classList.remove("sel"); });
+        b.classList.add("sel");
+        if (isExam()) renderExamNav(); else evaluate();
+      });
+      wrap.appendChild(b);
+    });
+    box.appendChild(wrap);
+  }
+
+  function renderKprim(q, a, box){
+    var wrap = el("div", "kp");
+    a.order.forEach(function(oi, k){
+      var row = el("div", "kp-row");
+      row.appendChild(el("span", "t", (k + 1) + ". " + q.optionen[oi].text));
+      var btns = el("div", "kp-btns");
+      [[true, "richtig"], [false, "falsch"]].forEach(function(pair){
+        var b = el("button", "kp-btn", pair[1]); b.type = "button";
+        b.setAttribute("aria-pressed", a.marks[oi] === pair[0] ? "true" : "false");
+        b.setAttribute("aria-label", "Aussage " + (k + 1) + " ist " + pair[1]);
+        b.addEventListener("click", function(){
+          if (!isExam() && checked[pos]) return;
+          a.marks[oi] = pair[0];
+          Array.prototype.forEach.call(btns.children, function(x){ x.setAttribute("aria-pressed", "false"); });
+          b.setAttribute("aria-pressed", "true");
+          if (isExam()) renderExamNav(); else $("checkBtn").disabled = !isComplete(q, a);
+        });
+        btns.appendChild(b);
+      });
+      row.appendChild(btns);
+      row.appendChild(el("span", "sol"));
+      row.appendChild(el("span", "why", q.optionen[oi].begruendung));
+      row.setAttribute("data-oi", oi);
+      wrap.appendChild(row);
+    });
+    box.appendChild(wrap);
+  }
+
+  // Übungsmodus: sofort auswerten
+  function evaluate(){
+    var q = queue[pos], a = answers[pos];
+    if (!isComplete(q, a) || checked[pos]) return;
+    checked[pos] = true;
+    var s = score(q, a);
+    record(q, a, s);
+    if (q.format === "sc"){
+      var wrap = $("qBody").firstChild; wrap.classList.add("answered");
+      Array.prototype.forEach.call(wrap.children, function(b, k){
+        var oi = a.order[k];
+        b.classList.remove("sel");
+        if (q.optionen[oi].richtig) b.classList.add("right");
+        else if (oi === a.chosen) b.classList.add("wrong");
+        else b.classList.add("neutral");
+        b.setAttribute("aria-disabled", "true");
+      });
+    } else {
+      markKprim($("qBody").firstChild, q, a);
+    }
+    var v = el("div", "verdict " + (s.pts === s.max ? "ok" : "bad"));
+    if (q.format === "sc"){
+      v.textContent = s.pts ? "Richtig! Lies trotzdem, warum die anderen Antworten falsch sind."
+                            : "Leider falsch. Die richtige Antwort ist grün markiert.";
+    } else {
+      v.textContent = s.n + " von 4 Aussagen richtig eingeschätzt: " + s.pts + (s.pts === 1 ? " Punkt" : " Punkte") + " von 2."
+        + (s.pts < 2 ? " Lies die Begründungen bei den roten Aussagen." : "");
+    }
+    $("qVerdict").appendChild(v);
+    if (q.fundstelle){ $("qSource").textContent = "Nachlesen im Material: " + q.fundstelle; $("qSource").classList.remove("hidden"); }
+    $("checkBtn").disabled = true;
+    $("nextBtn").disabled = false;
+    $("nextBtn").focus({preventScroll:true});
+  }
+
+  function markKprim(wrap, q, a){
+    wrap.classList.add("answered");
+    Array.prototype.forEach.call(wrap.children, function(row){
+      var oi = +row.getAttribute("data-oi"), o = q.optionen[oi];
+      var ok = a.marks[oi] === o.richtig;
+      row.classList.add(ok ? "right" : "wrong");
+      row.querySelector(".sol").textContent = "Lösung: " + (o.richtig ? "richtig" : "falsch")
+        + (a.marks[oi] === null ? " (nicht beantwortet)" : (ok ? "" : " (du: " + (a.marks[oi] ? "richtig" : "falsch") + ")"));
+    });
+  }
+
+  function record(q, a, s){
+    var p = progress[q.id] || {n:0};
+    p.n += 1; p.ok = s.pts === s.max;
+    progress[q.id] = p; save();
+    results.push({q:q, a:a, pts:s.pts, max:s.max});
+  }
+
+  function nextPractice(){
+    pos++;
+    if (pos < queue.length) { renderQuestion(); window.scrollTo(0,0); }
+    else finish(false);
+  }
+
+  // ---------- Klausurmodus: Navigation ----------
+  function renderExamNav(){
+    $("prevBtn").disabled = pos === 0;
+    $("fwdBtn").textContent = pos + 1 < queue.length ? "Weiter" : "Zur Abgabe";
+    var open = queue.filter(function(q, i){ return !isComplete(q, answers[i]); }).length;
+    var sb = $("submitBtn");
+    if (sb.getAttribute("data-confirm") !== "1")
+      sb.textContent = open ? "Abgeben (" + open + " noch offen)" : "Abgeben";
+    var d = $("dots"); d.innerHTML = "";
+    queue.forEach(function(q, i){
+      var b = el("button", "dot", String(i + 1)); b.type = "button";
+      if (isComplete(q, answers[i])) b.classList.add("done");
+      if (i === pos) b.classList.add("cur");
+      b.setAttribute("aria-label", "Aufgabe " + (i + 1) + (isComplete(q, answers[i]) ? ", beantwortet" : ", offen"));
+      b.addEventListener("click", function(){ pos = i; renderQuestion(); window.scrollTo(0,0); });
+      d.appendChild(b);
+    });
+  }
+  function examGo(step){
+    var n = pos + step;
+    if (n < 0) return;
+    if (n >= queue.length){ $("submitBtn").focus(); askSubmit(); return; }
+    pos = n; renderQuestion(); window.scrollTo(0,0);
+  }
+  function askSubmit(){
+    var b = $("submitBtn");
+    if (b.getAttribute("data-confirm") !== "1"){
+      b.setAttribute("data-confirm", "1"); b.textContent = "Wirklich abgeben? Nochmal tippen";
+      setTimeout(function(){ b.removeAttribute("data-confirm"); if (!submitted) renderExamNav(); }, 4000);
+      return;
+    }
+    b.removeAttribute("data-confirm");
+    finish(false);
+  }
+
+  // ---------- Ergebnis ----------
+  function note(pct){
+    // IHK-Notenschlüssel
+    if (pct >= 92) return "Note 1 (sehr gut)";
+    if (pct >= 81) return "Note 2 (gut)";
+    if (pct >= 67) return "Note 3 (befriedigend)";
+    if (pct >= 50) return "Note 4 (ausreichend)";
+    if (pct >= 30) return "Note 5 (mangelhaft)";
+    return "Note 6 (ungenügend)";
+  }
+
+  function finish(timeUp){
+    stopTimer();
+    if (isExam()){
+      if (submitted) return;
+      submitted = true;
+      results = [];
+      queue.forEach(function(q, i){ record(q, answers[i], score(q, answers[i])); });
+    }
+    var pts = 0, max = 0, scP = 0, scM = 0, kpP = 0, kpM = 0;
+    results.forEach(function(r){
+      pts += r.pts; max += r.max;
+      if (r.q.format === "sc"){ scP += r.pts; scM += r.max; } else { kpP += r.pts; kpM += r.max; }
+    });
+    var pct = max ? Math.round(pts / max * 1000) / 10 : 0;
+    $("rTitle").textContent = isExam() ? "Auswertung " + MODES[mode].title + (timeUp ? " (Zeit abgelaufen)" : "") : "Runde beendet";
+    $("rScore").textContent = max ? (fmt(pts) + " / " + max + " Punkte") : "–";
+    $("rGrade").textContent = isExam() && max ? note(pct) : "";
+    $("rSplit").classList.toggle("hidden", !max || !scM || !kpM);
+    $("rSc").textContent = scP + " / " + scM; $("rKp").textContent = kpP + " / " + kpM;
+    $("rText").textContent = !max ? "Du hast keine Aufgabe beantwortet."
+      : pct >= 81 ? String(pct).replace(".", ",") + " % der Punkte. Sehr gut, so kann die Klausur kommen!"
+      : pct >= 50 ? String(pct).replace(".", ",") + " % der Punkte. Wiederhole die falschen Aufgaben und lies die Begründungen."
+      : String(pct).replace(".", ",") + " % der Punkte. Lies die Begründungen unten und schau im Material nach.";
+    var box = $("rReview"); box.innerHTML = "";
+    if (isExam() && max){
+      var h = el("div", "review"); h.appendChild(el("h3", null, "Alle Aufgaben mit Begründung"));
+      results.forEach(function(r, idx){
+        var d = document.createElement("details");
+        if (r.pts < r.max) d.open = true;
+        var s = document.createElement("summary");
+        var tag = el("span", "tag " + (r.pts === r.max ? "ok" : "bad"), r.pts + "/" + r.max + " P");
+        s.appendChild(tag);
+        s.appendChild(document.createTextNode((idx + 1) + ". " + r.q.stamm.slice(0, 90) + (r.q.stamm.length > 90 ? " …" : "")));
+        d.appendChild(s);
+        var qt = el("p", "qtext", r.q.stamm); qt.style.fontSize = "1rem"; qt.style.marginTop = "8px"; d.appendChild(qt);
+        if (r.q.format === "sc"){
+          var wrap = el("div", "opts answered");
+          r.a.order.forEach(function(oi, k){
+            var o = r.q.optionen[oi];
+            var e = el("div", "opt " + (o.richtig ? "right" : (oi === r.a.chosen ? "wrong" : "neutral")));
+            e.innerHTML = '<span class="key"></span><span class="body"><span class="t"></span><span class="why"></span></span>';
+            e.querySelector(".key").textContent = LETTERS[k];
+            e.querySelector(".t").textContent = o.text + (oi === r.a.chosen ? "  (deine Antwort)" : "");
+            e.querySelector(".why").textContent = o.begruendung;
+            wrap.appendChild(e);
+          });
+          if (r.a.chosen === null) d.appendChild(el("p", "small muted", "Nicht beantwortet."));
+          d.appendChild(wrap);
+        } else {
+          var kw = el("div", "kp");
+          r.a.order.forEach(function(oi, k){
+            var row = el("div", "kp-row"); row.setAttribute("data-oi", oi);
+            row.appendChild(el("span", "t", (k + 1) + ". " + r.q.optionen[oi].text));
+            row.appendChild(el("span", "sol"));
+            row.appendChild(el("span", "why", r.q.optionen[oi].begruendung));
+            kw.appendChild(row);
+          });
+          markKprim(kw, r.q, r.a);
+          d.appendChild(kw);
+        }
+        d.appendChild(el("div", "source", "Nachlesen im Material: " + r.q.fundstelle));
+        h.appendChild(d);
+      });
+      box.appendChild(h);
+    }
+    show("viewResult");
+  }
+  function fmt(x){ return String(x).replace(".", ","); }
+
+  // ---------- Ereignisse ----------
+  Array.prototype.forEach.call(document.querySelectorAll(".mode"), function(b){
+    b.addEventListener("click", function(){ setMode(b.getAttribute("data-mode")); });
+  });
+  $("startBtn").addEventListener("click", function(){ start(false); });
+  $("repeatBtn").addEventListener("click", function(){ start(true); });
+  $("checkBtn").addEventListener("click", evaluate);
+  $("nextBtn").addEventListener("click", nextPractice);
+  $("quitBtn").addEventListener("click", function(){ if (results.length) finish(false); else goHome(); });
+  $("prevBtn").addEventListener("click", function(){ examGo(-1); });
+  $("fwdBtn").addEventListener("click", function(){ examGo(1); });
+  $("submitBtn").addEventListener("click", askSubmit);
+  $("againBtn").addEventListener("click", function(){ start(repeatOnly && wrongPool().length > 0); });
+  $("backBtn").addEventListener("click", goHome);
+  $("homeBtn").addEventListener("click", function(){
+    if (isExam() && !submitted && !$("viewQuiz").classList.contains("hidden")){
+      var b = $("homeBtn");
+      if (b.getAttribute("data-confirm") !== "1"){
+        b.setAttribute("data-confirm", "1"); b.textContent = "Abbrechen?";
+        setTimeout(function(){ b.removeAttribute("data-confirm"); b.textContent = "Start"; }, 4000);
+        return;
+      }
+      b.removeAttribute("data-confirm"); b.textContent = "Start"; stopTimer(); submitted = true;
+    }
+    goHome();
+  });
+  $("resetBtn").addEventListener("click", function(){
+    var b = $("resetBtn");
+    if (b.getAttribute("data-confirm") !== "1"){
+      b.setAttribute("data-confirm","1"); b.textContent = "Wirklich zurücksetzen? Nochmal tippen";
+      setTimeout(function(){ b.removeAttribute("data-confirm"); b.textContent = "Fortschritt zurücksetzen"; }, 4000);
+      return;
+    }
+    progress = {}; save(); b.removeAttribute("data-confirm"); b.textContent = "Fortschritt zurücksetzen"; renderStats();
+  });
+  function goHome(){ stopTimer(); renderStats(); show("viewStart"); }
+
+  renderChips(); setMode("practice");
+})();
+</script>
+</body>
+</html>
